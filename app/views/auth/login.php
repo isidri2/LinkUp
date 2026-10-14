@@ -5,58 +5,76 @@
 
     <title>LinkUp - Login</title>
 
-    <link rel="stylesheet"
-          href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/style.css">
 
 </head>
 
 <body>
 
-<div class="auth-container">
+<div class="login-page">
 
-    <h1>LinkUp</h1>
+    <div class="login-card">
 
-    <h2>Login</h2>
+        <h1>LinkUp</h1>
 
-    <?php if (isset($error)): ?>
-
-        <p class="error">
-            <?= htmlspecialchars($error) ?>
+        <p class="login-subtitle">
+            Connect. Share. LinkUp.
         </p>
 
-    <?php endif; ?>
+        <h2>Login</h2>
 
-    <form method="POST">
+        <?php if (isset($error)): ?>
 
-        <input
-            type="text"
-            name="username"
-            placeholder="Username"
-            required
-        >
+            <p class="error">
+                <?= htmlspecialchars($error) ?>
+            </p>
 
-        <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            required
-        >
+        <?php endif; ?>
 
-        <button type="submit">
-            Login
-        </button>
 
-    </form>
+        <form method="POST">
 
-    <p>
-        Don't have an account?
+            <label>Username</label>
 
-        <a href="index.php?action=register">
-            Register
-        </a>
-    </p>
+            <input
+                type="text"
+                name="username"
+                placeholder="Enter your username"
+                required
+            >
+
+
+            <label>Password</label>
+
+            <input
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+            >
+
+
+            <button type="submit">
+                Login
+            </button>
+
+        </form>
+
+
+        <p class="register-text">
+
+            Don't have an account?
+
+            <a href="index.php?action=register">
+                Register
+            </a>
+
+        </p>
+
+    </div>
 
 </div>
 
 </body>
+
 </html>

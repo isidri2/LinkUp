@@ -1,17 +1,23 @@
 <?php
 
 require_once __DIR__ . "/../models/PostModel.php";
+require_once __DIR__ . "/../models/CommentModel.php";
+require_once __DIR__ . "/../models/LikeModel.php";
 
 class PostController
 {
     private $postModel;
+    private $commentModel;
+    private $likeModel;
 
     public function __construct()
     {
         $this->postModel = new PostModel();
+        $this->commentModel = new CommentModel();
+        $this->likeModel = new LikeModel();
     }
 
-    // Show newsfeed
+
     public function index()
     {
         if (!isset($_SESSION["user_id"])) {
@@ -21,10 +27,33 @@ class PostController
 
         $posts = $this->postModel->getAllPosts();
 
+        $postComments = [];
+        $postLikes = [];
+        $postLiked = [];
+
+        foreach ($posts as $post) {
+
+            $postComments[$post["id"]] =
+                $this->commentModel->getCommentsByPost(
+                    $post["id"]
+                );
+
+            $postLikes[$post["id"]] =
+                $this->likeModel->countLikes(
+                    $post["id"]
+                );
+
+            $postLiked[$post["id"]] =
+                $this->likeModel->hasLiked(
+                    $post["id"],
+                    $_SESSION["user_id"]
+                );
+        }
+
         require "../app/views/posts/newsfeed.php";
     }
 
-    // Create post
+
     public function create()
     {
         if (!isset($_SESSION["user_id"])) {
@@ -37,9 +66,11 @@ class PostController
             $content = trim($_POST["content"]);
 
             if (empty($content)) {
+
                 $error = "Post cannot be empty.";
 
                 require "../app/views/posts/create.php";
+
                 return;
             }
 
@@ -55,7 +86,7 @@ class PostController
         require "../app/views/posts/create.php";
     }
 
-    // Edit post
+
     public function edit()
     {
         if (!isset($_SESSION["user_id"])) {
@@ -68,7 +99,8 @@ class PostController
         $post = $this->postModel->getPostById($id);
 
         if (!$post || $post["user_id"] != $_SESSION["user_id"]) {
-            die("You are not allowed to edit this post.");
+            header("Location: index.php?action=home");
+            exit;
         }
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -76,9 +108,11 @@ class PostController
             $content = trim($_POST["content"]);
 
             if (empty($content)) {
+
                 $error = "Post cannot be empty.";
 
                 require "../app/views/posts/edit.php";
+
                 return;
             }
 
@@ -95,7 +129,7 @@ class PostController
         require "../app/views/posts/edit.php";
     }
 
-    // Delete post
+
     public function delete()
     {
         if (!isset($_SESSION["user_id"])) {

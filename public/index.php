@@ -4,77 +4,83 @@ session_start();
 
 require_once "../app/controllers/AuthController.php";
 require_once "../app/controllers/PostController.php";
-
+require_once "../app/controllers/CommentController.php";
+require_once "../app/controllers/LikeController.php";
+require_once "../app/controllers/ProfileController.php";
+require_once "../app/controllers/SearchController.php";
 
 $action = $_GET["action"] ?? "login";
 
-
 $authController = new AuthController();
-
 $postController = new PostController();
-
+$commentController = new CommentController();
+$likeController = new LikeController();
+$profileController = new ProfileController();
+$searchController = new SearchController();
 
 switch ($action) {
 
-    // LOGIN
     case "login":
-
         $authController->login();
-
         break;
 
-
-    // REGISTER
     case "register":
-
         $authController->register();
-
         break;
 
-
-    // LOGOUT
     case "logout":
-
         $authController->logout();
-
         break;
 
-
-    // HOME / NEWSFEED
     case "home":
-
         $postController->index();
-
         break;
 
-
-    // CREATE POST
     case "create_post":
-
         $postController->create();
-
         break;
 
-
-    // EDIT POST
     case "edit_post":
-
         $postController->edit();
-
         break;
 
-
-    // DELETE POST
     case "delete_post":
-
         $postController->delete();
-
         break;
 
+    case "create_comment":
+        $commentController->create();
+        break;
+
+    case "edit_comment":
+        $commentController->edit();
+        break;
+
+    case "delete_comment":
+        $commentController->delete();
+        break;
+
+    case "like":
+        $likeController->like();
+        break;
+
+    case "unlike":
+        $likeController->unlike();
+        break;
+
+    case "profile":
+        $profileController->profile();
+        break;
+
+    case "edit_profile":
+        $profileController->edit();
+        break;
+
+    case "search":
+        $searchController->search();
+        break;
 
     default:
-
         header("Location: index.php?action=login");
-
-        break;
+        exit;
 }

@@ -12,7 +12,6 @@ class PostModel
         $this->conn = $database->connect();
     }
 
-    // Get all posts
     public function getAllPosts()
     {
         $sql = "SELECT posts.*, users.username, users.full_name
@@ -27,11 +26,9 @@ class PostModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Create post
     public function createPost($user_id, $content)
     {
-        $sql = "INSERT INTO posts
-                (user_id, content)
+        $sql = "INSERT INTO posts (user_id, content)
                 VALUES (?, ?)";
 
         $stmt = $this->conn->prepare($sql);
@@ -42,10 +39,10 @@ class PostModel
         ]);
     }
 
-    // Get one post
     public function getPostById($id)
     {
-        $sql = "SELECT * FROM posts
+        $sql = "SELECT *
+                FROM posts
                 WHERE id = ?";
 
         $stmt = $this->conn->prepare($sql);
@@ -54,7 +51,6 @@ class PostModel
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Update post
     public function updatePost($id, $user_id, $content)
     {
         $sql = "UPDATE posts
@@ -71,7 +67,6 @@ class PostModel
         ]);
     }
 
-    // Delete post
     public function deletePost($id, $user_id)
     {
         $sql = "DELETE FROM posts
@@ -84,5 +79,23 @@ class PostModel
             $id,
             $user_id
         ]);
+    }
+
+    public function searchPosts($keyword)
+    {
+        $sql = "SELECT posts.*, users.username, users.full_name
+                FROM posts
+                INNER JOIN users
+                ON posts.user_id = users.id
+                WHERE posts.content LIKE ?
+                ORDER BY posts.created_at DESC";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->execute([
+            "%" . $keyword . "%"
+        ]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

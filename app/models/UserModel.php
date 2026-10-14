@@ -34,22 +34,30 @@ class UserModel
 
     public function findByUsername($username)
     {
-        $sql = "SELECT * FROM users
+        $sql = "SELECT *
+                FROM users
                 WHERE username = ?";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->execute([$username]);
+
+        $stmt->execute([
+            $username
+        ]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
     public function findById($id)
     {
-        $sql = "SELECT * FROM users
+        $sql = "SELECT *
+                FROM users
                 WHERE id = ?";
 
         $stmt = $this->conn->prepare($sql);
-        $stmt->execute([$id]);
+
+        $stmt->execute([
+            $id
+        ]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
@@ -74,5 +82,23 @@ class UserModel
             $profile_image,
             $id
         ]);
+    }
+
+    public function searchUsers($keyword)
+    {
+        $sql = "SELECT *
+                FROM users
+                WHERE username LIKE ?
+                OR full_name LIKE ?
+                ORDER BY username ASC";
+
+        $stmt = $this->conn->prepare($sql);
+
+        $stmt->execute([
+            "%" . $keyword . "%",
+            "%" . $keyword . "%"
+        ]);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }

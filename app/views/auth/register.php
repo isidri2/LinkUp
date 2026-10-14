@@ -5,65 +5,96 @@
 
     <title>LinkUp - Register</title>
 
-    <link rel="stylesheet"
-          href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/style.css">
 
 </head>
 
 <body>
 
-<div class="auth-container">
+<div class="login-page">
 
-    <h1>LinkUp</h1>
+    <div class="login-card">
 
-    <h2>Create Account</h2>
+        <h1>LinkUp</h1>
 
-    <?php if (isset($error)): ?>
-
-        <p class="error">
-            <?= htmlspecialchars($error) ?>
+        <p class="login-subtitle">
+            Create your account and join LinkUp.
         </p>
 
-    <?php endif; ?>
+        <h2>Register</h2>
 
-    <form method="POST">
 
-        <input
-            type="text"
-            name="full_name"
-            placeholder="Full Name"
-            required
-        >
+        <?php if (isset($error)): ?>
 
-        <input
-            type="text"
-            name="username"
-            placeholder="Username"
-            required
-        >
+            <p class="error">
+                <?= htmlspecialchars($error) ?>
+            </p>
 
-        <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            required
-        >
+        <?php endif; ?>
 
-        <button type="submit">
-            Register
-        </button>
 
-    </form>
+        <form method="POST">
 
-    <p>
-        Already have an account?
+            <label for="full_name">
+                Full Name
+            </label>
 
-        <a href="index.php?action=login">
-            Login
-        </a>
-    </p>
+            <input
+                type="text"
+                id="full_name"
+                name="full_name"
+                placeholder="Enter your full name"
+                required
+            >
+
+
+            <label for="username">
+                Username
+            </label>
+
+            <input
+                type="text"
+                id="username"
+                name="username"
+                placeholder="Choose a username"
+                required
+            >
+
+
+            <label for="password">
+                Password
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Create a password"
+                required
+            >
+
+
+            <button type="submit">
+                Create Account
+            </button>
+
+        </form>
+
+
+        <p class="register-text">
+
+            Already have an account?
+
+            <a href="index.php?action=login">
+                Login
+            </a>
+
+        </p>
+
+    </div>
 
 </div>
 
 </body>
+
 </html>
