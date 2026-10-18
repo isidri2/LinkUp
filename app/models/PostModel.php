@@ -1,3 +1,4 @@
+
 <?php
 
 require_once __DIR__ . "/../../config/database.php";
@@ -12,12 +13,17 @@ class PostModel
         $this->conn = $database->connect();
     }
 
+    // Get all posts with each author's current profile information
     public function getAllPosts()
     {
-        $sql = "SELECT posts.*, users.username, users.full_name
+        $sql = "SELECT
+                    posts.*,
+                    users.username,
+                    users.full_name,
+                    users.profile_image
                 FROM posts
                 INNER JOIN users
-                ON posts.user_id = users.id
+                    ON posts.user_id = users.id
                 ORDER BY posts.created_at DESC";
 
         $stmt = $this->conn->prepare($sql);
@@ -26,6 +32,7 @@ class PostModel
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    // Create a new post
     public function createPost($user_id, $content)
     {
         $sql = "INSERT INTO posts (user_id, content)
@@ -39,11 +46,13 @@ class PostModel
         ]);
     }
 
+    // Get one post by ID
     public function getPostById($id)
     {
         $sql = "SELECT *
                 FROM posts
-                WHERE id = ?";
+                WHERE id = ?
+                LIMIT 1";
 
         $stmt = $this->conn->prepare($sql);
         $stmt->execute([$id]);
@@ -51,6 +60,7 @@ class PostModel
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    // Update a post only if it belongs to the logged-in user
     public function updatePost($id, $user_id, $content)
     {
         $sql = "UPDATE posts
@@ -67,6 +77,7 @@ class PostModel
         ]);
     }
 
+    // Delete a post only if it belongs to the logged-in user
     public function deletePost($id, $user_id)
     {
         $sql = "DELETE FROM posts
@@ -81,12 +92,17 @@ class PostModel
         ]);
     }
 
+    // Search posts by content
     public function searchPosts($keyword)
     {
-        $sql = "SELECT posts.*, users.username, users.full_name
+        $sql = "SELECT
+                    posts.*,
+                    users.username,
+                    users.full_name,
+                    users.profile_image
                 FROM posts
                 INNER JOIN users
-                ON posts.user_id = users.id
+                    ON posts.user_id = users.id
                 WHERE posts.content LIKE ?
                 ORDER BY posts.created_at DESC";
 

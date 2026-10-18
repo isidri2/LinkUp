@@ -78,27 +78,30 @@
         <div class="post">
 
 
-            <!-- POST HEADER -->
+            
+<!-- POST HEADER -->
+<div class="post-header">
 
-            <div class="post-header">
+    <img
+        src="<?= !empty($post['profile_image'])
+            ? 'uploads/' . rawurlencode(basename($post['profile_image']))
+            : 'assets/default-avatar.png' ?>"
+        alt="Profile picture"
+        class="post-avatar"
+        onerror="this.onerror=null; this.src='assets/default-avatar.png';"
+    >
 
-                <strong>
+    <div class="post-user-info">
+        <strong>
+            <?= htmlspecialchars($post["full_name"] ?? $post["username"]) ?>
+        </strong>
 
-                    <?= htmlspecialchars(
-                        $post["full_name"]
-                    ) ?>
+        <span>
+            @<?= htmlspecialchars($post["username"]) ?>
+        </span>
+    </div>
 
-                </strong>
-
-                <span>
-
-                    @<?= htmlspecialchars(
-                        $post["username"]
-                    ) ?>
-
-                </span>
-
-            </div>
+</div>
 
 
             <p class="post-date">
