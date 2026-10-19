@@ -2285,21 +2285,21 @@ body:has(.search-page) {
     margin: 0 auto 15px;
 }
 
-/* FIX NEWSFEED POST IMAGES */
+/* POST PROFILE AVATAR */
 
-.post {
-    width: 100%;
-    box-sizing: border-box;
-    overflow: hidden;
+.post-avatar {
+    width: 45px;
+    height: 45px;
+    max-width: 45px;
+    max-height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    flex-shrink: 0;
 }
 
-.post img {
-    display: block;
-    width: 100%;
-    max-width: 100%;
-    height: auto;
-    max-height: 500px;
-    object-fit: contain;
-    margin: 15px 0;
-    border-radius: 12px;
+.post-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
 }
