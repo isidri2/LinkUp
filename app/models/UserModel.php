@@ -1,3 +1,4 @@
+
 <?php
 
 require_once __DIR__ . "/../../config/database.php";
@@ -12,6 +13,7 @@ class UserModel
         $this->conn = $database->connect();
     }
 
+    // Register a new user with a hashed password.
     public function register($username, $password, $full_name)
     {
         $sql = "INSERT INTO users
@@ -20,48 +22,51 @@ class UserModel
 
         $stmt = $this->conn->prepare($sql);
 
-        $password = password_hash(
+        $hashedPassword = password_hash(
             $password,
             PASSWORD_DEFAULT
         );
 
+        if ($hashedPassword === false) {
+            throw new RuntimeException("Password hashing failed.");
+        }
+
         return $stmt->execute([
             $username,
-            $password,
+            $hashedPassword,
             $full_name
         ]);
     }
 
+    // Find a user by username.
     public function findByUsername($username)
     {
         $sql = "SELECT *
                 FROM users
-                WHERE username = ?";
+                WHERE username = ?
+                LIMIT 1";
 
         $stmt = $this->conn->prepare($sql);
-
-        $stmt->execute([
-            $username
-        ]);
+        $stmt->execute([$username]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    // Find a user by ID.
     public function findById($id)
     {
         $sql = "SELECT *
                 FROM users
-                WHERE id = ?";
+                WHERE id = ?
+                LIMIT 1";
 
         $stmt = $this->conn->prepare($sql);
-
-        $stmt->execute([
-            $id
-        ]);
+        $stmt->execute([$id]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
+    // Update a user's profile.
     public function updateProfile(
         $id,
         $full_name,
@@ -84,21 +89,34 @@ class UserModel
         ]);
     }
 
+    // Search users by username or full name.
     public function searchUsers($keyword)
     {
-        $sql = "SELECT *
+        $sql = "SELECT id, username, full_name, bio, profile_image
                 FROM users
                 WHERE username LIKE ?
-                OR full_name LIKE ?
+                   OR full_name LIKE ?
                 ORDER BY username ASC";
 
         $stmt = $this->conn->prepare($sql);
 
+        $searchTerm = "%" . $keyword . "%";
+
         $stmt->execute([
-            "%" . $keyword . "%",
-            "%" . $keyword . "%"
+            $searchTerm,
+            $searchTerm
         ]);
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    // Count registered users for summary reports.
+    public function countUsers()
+    {
+        $sql = "SELECT COUNT(*) FROM users";
+
+        $stmt = $this->conn->query($sql);
+
+        return (int) $stmt->fetchColumn();
     }
 }

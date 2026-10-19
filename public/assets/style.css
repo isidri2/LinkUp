@@ -1,284 +1,376 @@
-/* =========================
-   GENERAL
-========================= */
-
 * {
+    margin: 0;
+    padding: 0;
     box-sizing: border-box;
 }
 
+:root {
+    --black: #111111;
+    --dark: #191919;
+    --charcoal: #252525;
+    --white: #ffffff;
+    --background: #f4f4f5;
+    --light-gray: #f8f8f8;
+    --border: #e5e5e5;
+    --text: #191919;
+    --muted: #777777;
+    --radius: 16px;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f2f4f7;
-    color: #222;
+    font-family: Arial, Helvetica, sans-serif;
+    background: var(--background);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
 }
 
 a {
+    color: var(--black);
     text-decoration: none;
+    transition: color 0.2s ease, opacity 0.2s ease;
 }
 
+a:hover {
+    opacity: 0.75;
+}
 
-/* =========================
-   NAVBAR
-========================= */
+button,
+input,
+textarea,
+select {
+    font-family: inherit;
+    font-size: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+img {
+    max-width: 100%;
+}
+
+/* ---------- NAVIGATION BAR ---------- */
 
 .navbar {
-    background: #1877f2;
-    color: white;
-    padding: 14px 8%;
+    min-height: 82px;
+    padding: 18px 4%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+    background: #111111;
+    color: #ffffff;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
 }
 
 .navbar h1 {
-    margin: 0;
-    font-size: 26px;
-    letter-spacing: 0.5px;
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 800;
+    letter-spacing: -1px;
 }
 
-.navbar div {
+.navbar > div {
     display: flex;
     align-items: center;
-    gap: 18px;
+    justify-content: flex-end;
+    gap: 22px;
+    flex-wrap: wrap;
 }
 
 .navbar span {
-    font-size: 14px;
-    opacity: 0.9;
+    color: #c8c8c8;
+    font-size: 13px;
 }
 
 .navbar a {
-    color: white;
-    font-weight: bold;
-    font-size: 14px;
-    padding: 7px 3px;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 600;
 }
 
 .navbar a:hover {
-    text-decoration: none;
-    opacity: 0.8;
+    color: #bdbdbd;
+    opacity: 1;
 }
 
-
-/* =========================
-   MAIN CONTAINERS
-========================= */
+/* ---------- NEWSFEED LAYOUT ---------- */
 
 .feed-container {
-    width: 90%;
-    max-width: 700px;
-    margin: 30px auto;
+    width: min(92%, 850px);
+    margin: 35px auto;
 }
 
 .feed-container h2 {
     margin-bottom: 20px;
     font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.7px;
 }
 
-
-/* =========================
-   BUTTONS
-========================= */
+/* ---------- BUTTONS ---------- */
 
 button,
 .create-post-button,
-.edit-profile-button {
-    display: inline-block;
-    background: #1877f2;
-    color: white;
-    border: none;
-    padding: 10px 16px;
-    border-radius: 7px;
-    cursor: pointer;
-    font-weight: bold;
+.like-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 11px 18px;
+    border: 1px solid #111111;
+    border-radius: 30px;
+    background: #111111;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 button:hover,
 .create-post-button:hover,
-.edit-profile-button:hover {
-    background: #0d65d9;
+.like-button:hover {
+    background: #333333;
+    color: #ffffff;
+    opacity: 1;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(0, 0, 0, 0.12);
 }
 
 .create-post-button {
     margin-bottom: 20px;
 }
 
-
-/* =========================
-   POSTS
-========================= */
+/* ---------- POST CARDS ---------- */
 
 .post {
-    background: white;
-    border-radius: 10px;
-    padding: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    width: 100%;
+    margin: 0 auto 22px;
+    padding: 22px;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition: box-shadow 0.2s ease;
 }
+
+.post:hover {
+    box-shadow: 0 14px 35px rgba(0, 0, 0, 0.08);
+}
+
+/* ---------- POST HEADER ---------- */
 
 .post-header {
     display: flex;
     align-items: center;
-    gap: 8px;
-    margin-bottom: 5px;
-}
-
-.post-header strong {
-    font-size: 16px;
-}
-
-.post-header span {
-    color: #777;
-    font-size: 14px;
-}
-
-.post-date {
-    color: #888;
-    font-size: 12px;
-    margin-top: 5px;
-}
-
-.post-content {
-    margin: 15px 0;
-    line-height: 1.6;
-    white-space: normal;
-}
-
-
-/* =========================
-   POST ACTIONS
-========================= */
-
-.post-actions {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 15px;
-}
-
-.post-actions a {
-    color: #1877f2;
-    font-size: 14px;
-    font-weight: bold;
-}
-
-.post-actions a:hover {
-    text-decoration: underline;
-}
-
-
-/* =========================
-   LIKE
-========================= */
-
-.like-section {
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #eee;
-    padding: 10px 0;
-    margin-bottom: 15px;
-}
-
-.like-button {
-    color: #1877f2;
-    font-weight: bold;
-    margin-right: 10px;
-}
-
-.like-button.liked {
-    color: #e91e63;
-}
-
-.like-count {
-    color: #666;
-    font-size: 14px;
-}
-
-
-/* =========================
-   COMMENTS
-========================= */
-
-.comments {
-    margin-top: 10px;
-}
-
-.comments h4 {
-    color: #333;
-    font-size: 15px;
+    justify-content: flex-start;
+    gap: 12px;
+    width: 100%;
     margin-bottom: 12px;
 }
 
+.post-avatar,
+.user-avatar,
+.search-avatar {
+    width: 46px;
+    height: 46px;
+    min-width: 46px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #e5e5e5;
+    background: #f0f0f0;
+}
+
+.post-user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+    min-width: 0;
+}
+
+.post-user-info strong,
+.post-header strong {
+    color: #171717;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.post-user-info span,
+.post-header span {
+    color: #777777;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+/* ---------- POST DATE AND CONTENT ---------- */
+
+.post-date {
+    margin: 8px 0 13px;
+    color: #888888;
+    font-size: 12px;
+}
+
+.post-content {
+    margin: 12px 0 18px;
+    color: #292929;
+    font-size: 15px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+/* ---------- POST ACTIONS ---------- */
+
+.post-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 12px 0;
+}
+
+.post-actions a {
+    color: #444444;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.post-actions a:hover {
+    color: #000000;
+    text-decoration: underline;
+}
+
+.like-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 14px 0;
+}
+
+.like-button {
+    padding: 7px 15px;
+    font-size: 12px;
+}
+
+.like-button.liked {
+    background: #ffffff;
+    color: #111111;
+    border-color: #111111;
+}
+
+.like-count {
+    color: #777777;
+    font-size: 12px;
+}
+
+/* ---------- COMMENTS ---------- */
+
+.comments {
+    margin-top: 20px;
+    padding-top: 17px;
+    border-top: 1px solid #eeeeee;
+}
+
+.comments h4 {
+    margin-bottom: 14px;
+    color: #222222;
+    font-size: 14px;
+    font-weight: 800;
+}
+
+.comments > p {
+    color: #888888;
+    font-size: 13px;
+}
+
 .comment {
-    background: #f5f6f7;
-    border-radius: 8px;
-    padding: 12px 15px;
-    margin-bottom: 8px;
-    border: 1px solid #eee;
+    margin: 10px 0;
+    padding: 13px 15px;
+    background: #f7f7f7;
+    border: 1px solid #eeeeee;
+    border-radius: 12px;
 }
 
 .comment strong {
-    color: #333;
-    font-size: 14px;
+    color: #222222;
+    font-size: 13px;
 }
 
 .comment span {
-    color: #777;
-    font-size: 12px;
+    margin-left: 5px;
+    color: #888888;
+    font-size: 11px;
 }
 
 .comment p {
-    margin: 6px 0;
-    color: #444;
-    font-size: 14px;
-    line-height: 1.4;
+    margin: 6px 0 8px;
+    color: #444444;
+    font-size: 13px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
 }
 
-.comment a {
-    color: #1877f2;
+.comment > a {
+    margin-right: 12px;
+    color: #555555;
     font-size: 12px;
-    font-weight: bold;
-    margin-right: 10px;
+    font-weight: 700;
 }
+
+/* ---------- COMMENT FORM ---------- */
 
 .comment-form {
     display: flex;
-    gap: 8px;
-    margin-top: 15px;
+    align-items: center;
+    gap: 9px;
+    margin-top: 14px;
 }
 
 .comment-form input {
     flex: 1;
-    background: #f8f9fa;
+    min-width: 0;
 }
 
 .comment-form button {
-    padding: 10px 15px;
-    white-space: nowrap;
+    flex-shrink: 0;
 }
 
-
-/* =========================
-   INPUTS
-========================= */
+/* ---------- INPUT FIELDS ---------- */
 
 input,
-textarea {
+textarea,
+select {
     width: 100%;
-    padding: 11px;
-    border: 1px solid #ccc;
-    border-radius: 7px;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
+    padding: 12px 14px;
+    color: #222222;
+    background: #fafafa;
+    border: 1px solid #dddddd;
+    border-radius: 10px;
+    outline: none;
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
 }
 
 input:focus,
-textarea:focus {
-    outline: none;
-    border-color: #1877f2;
+textarea:focus,
+select:focus {
+    background: #ffffff;
+    border-color: #222222;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
 }
 
 textarea {
@@ -286,419 +378,1898 @@ textarea {
     resize: vertical;
 }
 
+/* ---------- EMPTY RESULTS ---------- */
 
-/* =========================
-   FORMS
-========================= */
-
-.form-container {
-    width: 90%;
-    max-width: 450px;
-    margin: 60px auto;
-    background: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.form-container h1 {
+.empty-result {
+    padding: 35px 20px;
+    background: #ffffff;
+    border: 1px dashed #d7d7d7;
+    border-radius: var(--radius);
+    color: #777777;
     text-align: center;
-    margin-bottom: 25px;
 }
 
-.form-container label {
-    display: block;
-    margin-top: 15px;
-    margin-bottom: 6px;
-    font-weight: bold;
-}
+/* =========================================
+   LOGIN AND REGISTER AUTHENTICATION PAGES
+========================================= */
 
-.form-container button {
+/* Dark aesthetic background */
+
+.login-page {
+    min-height: 100vh;
     width: 100%;
-    margin-top: 20px;
-}
-
-.form-container a {
-    color: #1877f2;
-}
-
-
-/* =========================
-   ERROR
-========================= */
-
-.error {
-    background: #ffe5e5;
-    color: #c62828;
-    padding: 10px;
-    border-radius: 6px;
-    margin-bottom: 15px;
-}
-
-
-/* =========================
-   PROFILE
-========================= */
-
-.profile-container {
-    width: 90%;
-    max-width: 700px;
-    margin: 30px auto;
-}
-
-.profile-card {
-    background: white;
-    padding: 40px 30px;
-    border-radius: 12px;
-    text-align: center;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-    margin-bottom: 25px;
-}
-
-.profile-avatar {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 15px;
-    border-radius: 50%;
-    background: #1877f2;
-    color: white;
     display: flex;
-    justify-content: center;
     align-items: center;
-    font-size: 30px;
-    font-weight: bold;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+    justify-content: center;
+    padding: 35px 18px;
+    box-sizing: border-box;
+
+    background:
+        radial-gradient(
+            ellipse at 12% 18%,
+            rgba(112, 112, 112, 0.22),
+            transparent 36%
+        ),
+        radial-gradient(
+            ellipse at 90% 85%,
+            rgba(85, 85, 85, 0.22),
+            transparent 38%
+        ),
+        radial-gradient(
+            ellipse at 50% 50%,
+            rgba(45, 45, 45, 0.35),
+            transparent 65%
+        ),
+        linear-gradient(
+            135deg,
+            #080808 0%,
+            #151515 45%,
+            #292929 100%
+        );
 }
 
-.profile-card h2 {
-    margin: 5px 0;
-    font-size: 24px;
+/* Authentication card */
+
+.login-card {
+    width: 100%;
+    max-width: 410px;
+    padding: 42px 36px 34px;
+    box-sizing: border-box;
+    background: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.65);
+    border-radius: 22px;
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.38),
+        0 0 0 1px rgba(255, 255, 255, 0.06);
+    animation: linkupFadeIn 0.45s ease;
 }
 
-.username {
-    color: #777;
+.login-card h1 {
+    margin: 0 0 5px;
+    color: #111111;
+    font-size: 36px;
+    font-weight: 800;
+    letter-spacing: -1.5px;
+    line-height: 1.25;
 }
 
-.bio {
-    color: #555;
-    margin: 15px 0 20px;
+.login-subtitle {
+    margin: 0 0 32px;
+    color: #777777;
+    font-size: 13px;
+    letter-spacing: 0.2px;
 }
 
-.profile-posts {
-    margin-top: 10px;
+.login-card h2 {
+    margin: 0 0 23px;
+    color: #171717;
+    font-size: 23px;
+    font-weight: 700;
 }
 
-.profile-posts h2 {
+.login-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.login-card label {
+    margin-top: 5px;
+    color: #333333;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.login-card input {
+    width: 100%;
+    min-height: 48px;
+    margin-bottom: 7px;
+    padding: 13px 15px;
+    box-sizing: border-box;
+    background: #f9f9f9;
+    color: #171717;
+    border: 1px solid #dedede;
+    border-radius: 11px;
+    font-size: 14px;
+}
+
+.login-card input:focus {
+    background: #ffffff;
+    border-color: #222222;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.07);
+}
+
+.login-card button {
+    width: 100%;
+    min-height: 49px;
+    margin-top: 8px;
+    padding: 13px 18px;
+    color: #ffffff;
+    background: #111111;
+    border: 1px solid #111111;
+    border-radius: 12px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.login-card button:hover {
+    background: #333333;
+}
+
+.login-card .register-text {
+    margin: 24px 0 0;
+    color: #777777;
+    font-size: 13px;
+    text-align: center;
+    line-height: 1.8;
+}
+
+.login-card a {
+    color: #111111;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.login-card a:hover {
+    text-decoration: underline;
+}
+
+/* Error messages */
+
+.login-card .error {
     margin-bottom: 15px;
+    padding: 11px 13px;
+    color: #a32121;
+    background: #fff0f0;
+    border: 1px solid #f0cccc;
+    border-radius: 9px;
+    font-size: 13px;
 }
 
-.profile-posts > h2 {
-    background: white;
-    padding: 15px 20px;
-    border-radius: 10px;
+/* Optional success message */
+
+.success {
     margin-bottom: 15px;
+    padding: 11px 13px;
+    color: #205c36;
+    background: #eef9f0;
+    border: 1px solid #cce8d2;
+    border-radius: 9px;
+    font-size: 13px;
 }
 
+/* Card entrance animation */
 
-/* =========================
-   SEARCH
-========================= */
+@keyframes linkupFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
 
-.feed-container form {
-    margin-bottom: 25px;
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-.feed-container form input {
-    margin-bottom: 10px;
+/* =========================================
+   PROFILE AND SEARCH PAGE SHARED STYLES
+========================================= */
+
+.profile-container,
+.search-container {
+    width: min(92%, 850px);
+    margin: 35px auto;
 }
 
-.feed-container h3 {
-    margin-top: 25px;
-    margin-bottom: 12px;
+.profile-card,
+.search-card {
+    margin-bottom: 18px;
+    padding: 22px;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+}
+
+.profile-card h2,
+.search-container h2 {
+    margin-bottom: 16px;
+    color: #171717;
+    font-size: 23px;
+}
+
+.profile-card p {
+    margin: 8px 0;
+    color: #555555;
+    overflow-wrap: anywhere;
+}
+
+.search-card {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.search-card h3 {
+    margin-bottom: 3px;
+    font-size: 15px;
+}
+
+.search-card p {
+    color: #777777;
+    font-size: 13px;
 }
 
 .search-form {
     display: flex;
     gap: 10px;
-    margin-bottom: 25px;
+    margin-bottom: 22px;
 }
 
 .search-form input {
     flex: 1;
-    margin-bottom: 0 !important;
+    min-width: 0;
 }
 
 .search-form button {
-    width: auto;
-    white-space: nowrap;
+    flex-shrink: 0;
 }
 
-.search-heading {
-    background: white;
-    padding: 15px 20px;
-    border-radius: 10px;
-    margin-bottom: 20px;
+/* =========================================
+   CREATE POST / EDIT POST / EDIT COMMENT
+========================================= */
+
+.form-container {
+    width: min(92%, 600px);
+    margin: 40px auto;
+    padding: 28px;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
 }
 
-.search-heading h3 {
-    margin: 0;
-    font-size: 16px;
+.form-container h2 {
+    margin-bottom: 22px;
+    font-size: 24px;
 }
 
-.result-title {
-    margin-top: 25px;
-    margin-bottom: 12px;
-}
-
-.search-user {
-    background: white;
-    padding: 15px;
-    border-radius: 10px;
-    margin-bottom: 10px;
+.form-container form {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+    flex-direction: column;
+    gap: 14px;
 }
 
-.search-avatar {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    background: #1877f2;
-    color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-weight: bold;
-    font-size: 18px;
-}
-
-.search-user strong {
-    font-size: 15px;
-}
-
-.search-user p {
-    margin: 4px 0 0;
-    color: #777;
+.form-container label {
     font-size: 13px;
+    font-weight: 700;
 }
 
-.empty-result,
-.search-start {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    text-align: center;
-    color: #777;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+.form-container button {
+    align-self: flex-start;
 }
 
-.search-start {
-    margin-top: 20px;
+/* =========================================
+   ACCESSIBILITY AND RESPONSIVE DESIGN
+========================================= */
+
+button:focus-visible,
+a:focus-visible {
+    outline: 2px solid #777777;
+    outline-offset: 3px;
 }
 
-.search-start h3 {
-    color: #333;
-}
-
-
-/* =========================
-   LOGIN PAGE
-========================= */
-
-.login-page {
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-.login-card {
-    width: 100%;
-    max-width: 400px;
-    background: white;
-    padding: 35px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
-}
-
-.login-card h1 {
-    text-align: center;
-    color: #1877f2;
-    font-size: 35px;
-    margin: 0;
-}
-
-.login-subtitle {
-    text-align: center;
-    color: #777;
-    margin-top: 5px;
-    margin-bottom: 30px;
-}
-
-.login-card h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.login-card label {
-    display: block;
-    font-weight: bold;
-    margin-top: 15px;
-    margin-bottom: 6px;
-}
-
-.login-card input {
-    width: 100%;
-    padding: 12px;
-}
-
-.login-card button {
-    width: 100%;
-    margin-top: 20px;
-    padding: 12px;
-    font-size: 15px;
-}
-
-.register-text {
-    text-align: center;
-    margin-top: 20px;
-    color: #666;
-}
-
-.register-text a {
-    color: #1877f2;
-    font-weight: bold;
-}
-
-.register-text a:hover {
-    text-decoration: underline;
-}
-
-
-/* =========================
-   MOBILE
-========================= */
-
-@media (max-width: 600px) {
-
+@media (max-width: 700px) {
     .navbar {
-        padding: 15px;
+        padding: 18px 5%;
+        align-items: flex-start;
         flex-direction: column;
-        gap: 12px;
+        gap: 14px;
     }
 
-    .navbar div {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-    }
-
-    .navbar h1 {
-        font-size: 24px;
+    .navbar > div {
+        width: 100%;
+        justify-content: flex-start;
+        gap: 14px;
     }
 
     .feed-container,
-    .profile-container {
-        width: 94%;
-        margin-top: 20px;
+    .profile-container,
+    .search-container {
+        width: 92%;
+        margin-top: 25px;
+    }
+
+    .post {
+        padding: 16px;
+    }
+
+    .search-card {
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-page {
+        padding: 20px 14px;
+    }
+
+    .login-card {
+        padding: 32px 24px 28px;
+        border-radius: 18px;
+    }
+
+    .login-card h1 {
+        font-size: 32px;
     }
 
     .feed-container h2 {
         font-size: 23px;
     }
 
-    .post {
-        padding: 15px;
-    }
-
-    .post-header {
-        flex-wrap: wrap;
-    }
-
     .comment-form {
+        align-items: stretch;
         flex-direction: column;
     }
 
     .comment-form button {
-        width: 100%;
-    }
-
-    .form-container {
-        margin-top: 30px;
-        padding: 20px;
+        align-self: flex-start;
     }
 
     .search-form {
+        align-items: stretch;
         flex-direction: column;
+    }
+
+    .form-container {
+        padding: 20px;
+    }
+}
+
+/* ==========================================
+   LINKUP - PREMIUM AESTHETIC NEWSFEED
+   Append to the bottom of style.css
+========================================== */
+
+/* Dark, atmospheric background */
+body:has(.feed-container) {
+    background:
+        radial-gradient(
+            ellipse at 10% 10%,
+            rgba(75, 75, 75, 0.28),
+            transparent 35%
+        ),
+        radial-gradient(
+            ellipse at 90% 70%,
+            rgba(50, 50, 50, 0.3),
+            transparent 40%
+        ),
+        linear-gradient(135deg, #111111, #202020 55%, #121212);
+    min-height: 100vh;
+}
+
+/* Premium navigation */
+.navbar {
+    position: relative;
+    padding: 22px 5%;
+    background: rgba(12, 12, 12, 0.96);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.22);
+}
+
+.navbar h1 {
+    font-size: 30px;
+    letter-spacing: -1.5px;
+}
+
+.navbar > div {
+    gap: 10px;
+}
+
+.navbar span {
+    margin-right: 8px;
+}
+
+.navbar a {
+    padding: 9px 13px;
+    border-radius: 9px;
+    color: #dedede;
+    transition: background 0.25s ease, color 0.25s ease;
+}
+
+.navbar a:hover {
+    color: #ffffff;
+    background: #303030;
+}
+
+/* Main feed spacing */
+.feed-container {
+    width: min(92%, 780px);
+    margin: 42px auto 60px;
+}
+
+.feed-container h2 {
+    margin-bottom: 22px;
+    color: #ffffff;
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+/* Stylish create-post button */
+.create-post-button {
+    margin-bottom: 25px;
+    padding: 13px 22px;
+    border: 1px solid #ffffff;
+    border-radius: 12px;
+    background: #ffffff;
+    color: #111111;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.create-post-button:hover {
+    background: #e9e9e9;
+    color: #111111;
+    transform: translateY(-2px);
+}
+
+/* Premium post cards */
+.post {
+    position: relative;
+    margin-bottom: 24px;
+    padding: 25px;
+    overflow: hidden;
+    background: linear-gradient(145deg, #ffffff, #fafafa);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.post:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 22px 48px rgba(0, 0, 0, 0.28);
+}
+
+/* Profile picture and author details */
+.post-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 13px;
+    margin-bottom: 14px;
+}
+
+.post-avatar {
+    width: 52px;
+    height: 52px;
+    min-width: 52px;
+    border: 2px solid #eeeeee;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.post-user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 3px;
+}
+
+.post-user-info strong {
+    color: #161616;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.post-user-info span {
+    color: #888888;
+    font-size: 12px;
+}
+
+/* Date separator */
+.post-date {
+    margin: 10px 0 15px;
+    color: #888888;
+    font-size: 11px;
+}
+
+/* Post text */
+.post-content {
+    margin: 15px 0 20px;
+    color: #292929;
+    font-size: 15px;
+    line-height: 1.9;
+    overflow-wrap: anywhere;
+}
+
+/* Edit and delete links */
+.post-actions {
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.post-actions a {
+    padding: 6px 11px;
+    background: #f1f1f1;
+    border: 1px solid #e9e9e9;
+    border-radius: 8px;
+    color: #444444;
+    font-size: 12px;
+}
+
+.post-actions a:hover {
+    background: #222222;
+    color: #ffffff;
+    text-decoration: none;
+    opacity: 1;
+}
+
+/* Like button */
+.like-section {
+    margin: 16px 0;
+    gap: 12px;
+}
+
+.like-button {
+    padding: 9px 17px;
+    border-radius: 10px;
+    background: #171717;
+    color: #ffffff;
+}
+
+.like-button:hover {
+    background: #414141;
+}
+
+.like-button.liked {
+    background: #eeeeee;
+    border-color: #dddddd;
+    color: #111111;
+}
+
+.like-count {
+    color: #777777;
+    font-size: 12px;
+}
+
+/* Elegant comments area */
+.comments {
+    margin-top: 23px;
+    padding-top: 20px;
+    border-top: 1px solid #eaeaea;
+}
+
+.comments h4 {
+    margin-bottom: 15px;
+    color: #202020;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+.comments > p {
+    color: #888888;
+    font-size: 13px;
+}
+
+.comment {
+    margin: 12px 0;
+    padding: 14px 16px;
+    background: #f5f5f5;
+    border: 1px solid #ededed;
+    border-radius: 13px;
+}
+
+.comment strong {
+    font-size: 13px;
+}
+
+.comment p {
+    margin-top: 7px;
+    color: #444444;
+    line-height: 1.7;
+}
+
+/* Rounded comment input */
+.comment-form {
+    gap: 10px;
+    margin-top: 17px;
+}
+
+.comment-form input {
+    min-height: 46px;
+    padding: 13px 16px;
+    background: #f8f8f8;
+    border: 1px solid #e4e4e4;
+    border-radius: 12px;
+}
+
+.comment-form input:focus {
+    background: #ffffff;
+    border-color: #777777;
+}
+
+.comment-form button {
+    min-height: 44px;
+    padding: 11px 19px;
+    border-radius: 12px;
+}
+
+/* Empty feed message */
+.empty-result {
+    padding: 45px 25px;
+    background: rgba(255, 255, 255, 0.97);
+    border: 1px solid #eeeeee;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+/* Responsive layout */
+@media (max-width: 700px) {
+    .navbar {
+        padding: 20px 5%;
+    }
+
+    .navbar > div {
+        justify-content: flex-start;
+        gap: 6px;
+    }
+
+    .navbar a {
+        padding: 8px 10px;
+    }
+
+    .feed-container {
+        width: 92%;
+        margin-top: 30px;
+    }
+
+    .feed-container h2 {
+        font-size: 26px;
+    }
+
+    .post {
+        padding: 18px;
+        border-radius: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .post-avatar {
+        width: 46px;
+        height: 46px;
+        min-width: 46px;
+    }
+
+    .comment-form {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .comment-form button {
+        align-self: flex-start;
+    }
+}
+
+/* ==========================================
+   LINKUP - PREMIUM SEARCH PAGE
+========================================== */
+
+body:has(.search-container),
+body:has(.profile-container) {
+    background:
+        radial-gradient(
+            ellipse at 12% 10%,
+            rgba(75, 75, 75, 0.28),
+            transparent 35%
+        ),
+        radial-gradient(
+            ellipse at 90% 75%,
+            rgba(50, 50, 50, 0.3),
+            transparent 40%
+        ),
+        linear-gradient(135deg, #111111, #202020 55%, #121212);
+    min-height: 100vh;
+}
+
+.search-container,
+.profile-container {
+    width: min(92%, 780px);
+    margin: 42px auto 60px;
+}
+
+.search-container h2,
+.profile-container h2 {
+    color: #ffffff;
+    font-size: 29px;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    margin-bottom: 22px;
+}
+
+/* Search form card */
+.search-form {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 25px;
+    padding: 16px;
+    background: #ffffff;
+    border: 1px solid #eeeeee;
+    border-radius: 17px;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.2);
+}
+
+.search-form input {
+    flex: 1;
+    min-width: 0;
+    min-height: 48px;
+    padding: 13px 16px;
+    background: #f7f7f7;
+    border: 1px solid #e5e5e5;
+    border-radius: 12px;
+    color: #171717;
+    font-size: 14px;
+}
+
+.search-form input:focus {
+    background: #ffffff;
+    border-color: #333333;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
+}
+
+.search-form button {
+    min-height: 46px;
+    padding: 12px 22px;
+    border-radius: 12px;
+    flex-shrink: 0;
+}
+
+/* Search result cards */
+.search-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 15px;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 17px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.17);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.24);
+}
+
+.search-avatar {
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+    border: 2px solid #eeeeee;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.search-card h3 {
+    margin: 0 0 4px;
+    color: #171717;
+    font-size: 16px;
+    font-weight: 800;
+}
+
+.search-card p {
+    margin: 0;
+    color: #777777;
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+/* ==========================================
+   LINKUP - PREMIUM PROFILE PAGE
+========================================== */
+
+/* Profile content cards */
+.profile-card {
+    margin-bottom: 22px;
+    padding: 28px;
+    background: #ffffff;
+    border: 1px solid #eeeeee;
+    border-radius: 20px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+}
+
+.profile-card h2 {
+    color: #171717;
+    font-size: 21px;
+    margin-bottom: 18px;
+    letter-spacing: -0.4px;
+}
+
+.profile-card h3 {
+    margin: 0 0 8px;
+    color: #171717;
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.profile-card p {
+    margin: 9px 0;
+    color: #666666;
+    font-size: 14px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+/* Profile image */
+.profile-card img,
+.profile-avatar {
+    width: 110px;
+    height: 110px;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 4px solid #f0f0f0;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* Profile edit form */
+.profile-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.profile-card label {
+    color: #333333;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.profile-card input,
+.profile-card textarea {
+    width: 100%;
+    padding: 13px 15px;
+    box-sizing: border-box;
+    background: #f8f8f8;
+    border: 1px solid #e2e2e2;
+    border-radius: 11px;
+    color: #171717;
+}
+
+.profile-card input:focus,
+.profile-card textarea:focus {
+    background: #ffffff;
+    border-color: #333333;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
+}
+
+.profile-card input[type="file"] {
+    padding: 10px;
+    background: #f6f6f6;
+    font-size: 12px;
+}
+
+.profile-card button {
+    align-self: flex-start;
+    min-height: 44px;
+    padding: 12px 22px;
+    border-radius: 11px;
+}
+
+/* Empty search results */
+.search-container .empty-result,
+.profile-container .empty-result {
+    margin-top: 15px;
+    padding: 35px 22px;
+    background: #ffffff;
+    border: 1px dashed #d5d5d5;
+    border-radius: 17px;
+    color: #777777;
+    text-align: center;
+}
+
+/* Responsive Search and Profile */
+@media (max-width: 600px) {
+    .search-container,
+    .profile-container {
+        width: 92%;
+        margin: 28px auto 40px;
+    }
+
+    .search-container h2,
+    .profile-container h2 {
+        font-size: 25px;
+    }
+
+    .search-form {
+        align-items: stretch;
+        flex-direction: column;
+        padding: 13px;
     }
 
     .search-form button {
         width: 100%;
     }
 
+    .search-card {
+        padding: 16px;
+        gap: 12px;
+    }
+
+    .search-avatar {
+        width: 49px;
+        height: 49px;
+        min-width: 49px;
+    }
+
     .profile-card {
-        padding: 30px 20px;
+        padding: 20px;
     }
 }
 
-/* =========================
-   EDIT PROFILE
-========================= */
+/* ============================================
+   LINKUP — UNIFIED AESTHETIC FOR ALL FORMS
+   Edit Profile | Edit Post | Edit Comment
+   Create Post | Create Comment
+============================================ */
 
-.form-container textarea {
+/* Dark background for form and edit pages */
+body:has(.form-container),
+body:has(.edit-profile-container),
+body:has(.edit-profile-card),
+body:has(.comment-form-page) {
+    min-height: 100vh;
+    background:
+        radial-gradient(
+            ellipse at 12% 12%,
+            rgba(85, 85, 85, 0.25),
+            transparent 36%
+        ),
+        radial-gradient(
+            ellipse at 88% 80%,
+            rgba(65, 65, 65, 0.25),
+            transparent 40%
+        ),
+        linear-gradient(135deg, #101010, #202020 55%, #111111);
+}
+
+/* General form card */
+.form-container,
+.edit-profile-container,
+.edit-profile-card,
+.comment-form-page {
+    width: min(92%, 620px);
+    margin: 45px auto;
+    padding: 32px;
+    box-sizing: border-box;
+    background: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 22px;
+    box-shadow: 0 22px 55px rgba(0, 0, 0, 0.25);
+    animation: linkupFadeIn 0.35s ease;
+}
+
+/* Form headings */
+.form-container h1,
+.form-container h2,
+.edit-profile-container h1,
+.edit-profile-container h2,
+.edit-profile-card h1,
+.edit-profile-card h2,
+.comment-form-page h1,
+.comment-form-page h2 {
+    margin: 0 0 10px;
+    color: #151515;
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.7px;
+}
+
+.form-container > p,
+.edit-profile-container > p,
+.edit-profile-card > p,
+.comment-form-page > p {
+    margin-bottom: 24px;
+    color: #777777;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+/* Form layout */
+.form-container form,
+.edit-profile-container form,
+.edit-profile-card form,
+.comment-form-page form {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+}
+
+/* Labels */
+.form-container label,
+.edit-profile-container label,
+.edit-profile-card label,
+.comment-form-page label {
+    color: #333333;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+/* Inputs and text areas */
+.form-container input,
+.form-container textarea,
+.form-container select,
+.edit-profile-container input,
+.edit-profile-container textarea,
+.edit-profile-container select,
+.edit-profile-card input,
+.edit-profile-card textarea,
+.edit-profile-card select,
+.comment-form-page input,
+.comment-form-page textarea,
+.comment-form-page select {
+    width: 100%;
+    min-height: 46px;
+    padding: 13px 15px;
+    box-sizing: border-box;
+    background: #f8f8f8;
+    border: 1px solid #e2e2e2;
+    border-radius: 11px;
+    color: #222222;
+    outline: none;
+    font-size: 14px;
+    transition:
+        border-color 0.2s ease,
+        background 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+/* Focus effect */
+.form-container input:focus,
+.form-container textarea:focus,
+.form-container select:focus,
+.edit-profile-container input:focus,
+.edit-profile-container textarea:focus,
+.edit-profile-card input:focus,
+.edit-profile-card textarea:focus,
+.comment-form-page input:focus,
+.comment-form-page textarea:focus {
+    background: #ffffff;
+    border-color: #333333;
+    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.06);
+}
+
+/* Larger text areas */
+.form-container textarea,
+.edit-profile-container textarea,
+.edit-profile-card textarea,
+.comment-form-page textarea {
     min-height: 130px;
-    margin-bottom: 5px;
+    resize: vertical;
+    line-height: 1.7;
 }
 
-.form-container button {
-    transition: 0.2s;
+/* File upload fields */
+.form-container input[type="file"],
+.edit-profile-container input[type="file"],
+.edit-profile-card input[type="file"] {
+    padding: 10px;
+    background: #f5f5f5;
+    font-size: 12px;
 }
 
-.form-container button:hover {
+/* Submit buttons */
+.form-container button,
+.edit-profile-container button,
+.edit-profile-card button,
+.comment-form-page button {
+    align-self: flex-start;
+    min-height: 45px;
+    margin-top: 7px;
+    padding: 12px 24px;
+    border: 1px solid #111111;
+    border-radius: 11px;
+    background: #111111;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 700;
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.form-container button:hover,
+.edit-profile-container button:hover,
+.edit-profile-card button:hover,
+.comment-form-page button:hover {
+    background: #333333;
     transform: translateY(-1px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-.back-link {
+/* Back and cancel links */
+.form-container > a,
+.edit-profile-container > a,
+.edit-profile-card > a,
+.comment-form-page > a {
     display: inline-block;
-    margin-top: 20px;
-    color: #1877f2;
-    font-weight: bold;
+    margin-top: 18px;
+    color: #555555;
+    font-size: 13px;
+    font-weight: 700;
 }
 
-.back-link:hover {
+.form-container > a:hover,
+.edit-profile-container > a:hover,
+.edit-profile-card > a:hover,
+.comment-form-page > a:hover {
+    color: #111111;
     text-decoration: underline;
 }
 
-/* =========================
-   PROFILE PHOTO
-========================= */
-
-.profile-image {
+/* Profile image preview */
+.edit-profile-container img,
+.edit-profile-card img,
+.form-container .profile-avatar {
+    display: block;
     width: 100px;
     height: 100px;
-    border-radius: 50%;
+    margin: 0 0 18px;
     object-fit: cover;
-    display: block;
-    margin: 0 auto 15px;
-    border: 3px solid #1877f2;
+    border: 4px solid #eeeeee;
+    border-radius: 50%;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.1);
 }
 
-.edit-profile-image {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    object-fit: cover;
-    display: block;
-    margin: 10px auto 20px;
-    border: 2px solid #1877f2;
+/* ============================================
+   NEWSFEED COMMENT IMPROVEMENTS
+============================================ */
+
+/* Comment area */
+.post .comments {
+    margin-top: 23px;
+    padding-top: 20px;
+    border-top: 1px solid #e9e9e9;
 }
 
-.current-photo-text {
-    text-align: center;
-    color: #777;
+.post .comments h4 {
+    margin-bottom: 15px;
+    color: #1b1b1b;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+/* Individual comment card */
+.post .comment {
+    margin: 12px 0;
+    padding: 14px 16px;
+    background: #f6f6f6;
+    border: 1px solid #ececec;
+    border-radius: 13px;
+    transition: background 0.2s ease;
+}
+
+.post .comment:hover {
+    background: #f0f0f0;
+}
+
+.post .comment strong {
+    color: #202020;
     font-size: 13px;
-    margin-top: 15px;
+}
+
+.post .comment span {
+    color: #888888;
+    font-size: 11px;
+}
+
+.post .comment p {
+    margin: 7px 0 10px;
+    color: #444444;
+    font-size: 13px;
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+/* Comment edit/delete links */
+.post .comment > a {
+    display: inline-block;
+    margin-right: 12px;
+    color: #555555;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.post .comment > a:hover {
+    color: #000000;
+    text-decoration: underline;
+}
+
+/* Add-comment input */
+.post .comment-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 17px;
+}
+
+.post .comment-form input {
+    flex: 1;
+    min-width: 0;
+    min-height: 46px;
+    padding: 12px 16px;
+    background: #f8f8f8;
+    border: 1px solid #e3e3e3;
+    border-radius: 12px;
+}
+
+.post .comment-form input:focus {
+    background: #ffffff;
+    border-color: #777777;
+}
+
+.post .comment-form button {
+    flex-shrink: 0;
+    min-height: 44px;
+    padding: 11px 18px;
+    border-radius: 12px;
+}
+
+/* Status messages */
+.error {
+    padding: 12px 14px;
+    color: #a32121;
+    background: #fff0f0;
+    border: 1px solid #f0cccc;
+    border-radius: 10px;
+    font-size: 13px;
+}
+
+.success {
+    padding: 12px 14px;
+    color: #205c36;
+    background: #eef9f0;
+    border: 1px solid #cce8d2;
+    border-radius: 10px;
+    font-size: 13px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 600px) {
+    .form-container,
+    .edit-profile-container,
+    .edit-profile-card,
+    .comment-form-page {
+        width: 92%;
+        margin: 28px auto;
+        padding: 22px;
+        border-radius: 17px;
+    }
+
+    .form-container h1,
+    .form-container h2,
+    .edit-profile-container h1,
+    .edit-profile-container h2,
+    .edit-profile-card h1,
+    .edit-profile-card h2 {
+        font-size: 23px;
+    }
+
+    .post .comment-form {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .post .comment-form button {
+        align-self: flex-start;
+    }
+}
+
+/* =========================================
+   LINKUP — SMOOTH PREMIUM INTERACTIONS
+========================================= */
+
+/* Smooth scrolling and consistent transitions */
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+a,
+button,
+input,
+textarea,
+select,
+.post,
+.search-card,
+.profile-card,
+.form-container,
+.edit-profile-container,
+.edit-profile-card,
+.comment,
+.create-post-button,
+.like-button {
+    transition:
+        color 0.25s ease,
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s ease,
+        opacity 0.25s ease;
+}
+
+/* Smooth, subtle card hover */
+.post,
+.search-card,
+.profile-card,
+.form-container,
+.edit-profile-container,
+.edit-profile-card {
+    will-change: box-shadow;
+}
+
+.post:hover,
+.search-card:hover,
+.profile-card:hover {
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.12);
+}
+
+/* Smooth navigation links */
+.navbar a {
+    border-radius: 9px;
+}
+
+.navbar a:hover {
+    background-color: rgba(255, 255, 255, 0.09);
+}
+
+/* Smooth button hover */
+button,
+.create-post-button,
+.like-button {
+    transform: translateY(0);
+}
+
+button:hover,
+.create-post-button:hover,
+.like-button:hover {
+    transform: translateY(-2px);
+}
+
+button:active,
+.create-post-button:active,
+.like-button:active {
+    transform: translateY(0) scale(0.98);
+}
+
+/* Smooth input focus */
+input,
+textarea,
+select {
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        background-color 0.25s ease;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+}
+
+/* Smooth comment cards */
+.post .comment {
+    transition:
+        background-color 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.post .comment:hover {
+    border-color: #dedede;
+}
+
+/* Smooth profile picture appearance */
+.post-avatar,
+.user-avatar,
+.search-avatar,
+.profile-avatar {
+    transition:
+        border-color 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.post-avatar:hover,
+.user-avatar:hover,
+.search-avatar:hover,
+.profile-avatar:hover {
+    border-color: #bdbdbd;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+}
+
+/* Gentle entrance animation */
+@keyframes linkupSmoothEnter {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.login-card,
+.form-container,
+.edit-profile-container,
+.edit-profile-card,
+.comment-form-page {
+    animation: linkupSmoothEnter 0.4s ease both;
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ======================================
+   LINKUP SEARCH — REFINED DARK AESTHETIC
+====================================== */
+
+.search-page {
+    width: min(92%, 760px);
+    margin: 42px auto 70px;
+    color: #f5f5f5;
+}
+
+.search-page-header {
+    margin-bottom: 26px;
+}
+
+.search-eyebrow {
+    margin: 0 0 10px;
+    color: #a6a6a6;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+}
+
+.search-page-header h2 {
+    margin: 0;
+    color: #ffffff;
+    font-size: clamp(28px, 5vw, 38px);
+    font-weight: 800;
+    letter-spacing: -1.3px;
+}
+
+.search-page-header h2 span {
+    color: #999999;
+}
+
+.search-description {
+    margin-top: 10px;
+    color: #b1b1b1;
+    font-size: 14px;
+    line-height: 1.7;
+}
+
+.search-page .search-form {
+    display: flex;
+    gap: 10px;
+    margin: 0 0 32px;
+    padding: 9px;
+    background: #ffffff;
+    border: 1px solid #e7e7e7;
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+}
+
+.search-page .search-form input {
+    flex: 1;
+    width: 0;
+    min-width: 0;
+    padding: 14px 15px;
+    background: #f5f5f5;
+    border: 1px solid transparent;
+    border-radius: 10px;
+    color: #171717;
+    font-size: 14px;
+}
+
+.search-page .search-form input:focus {
+    background: #ffffff;
+    border-color: #bdbdbd;
+    outline: none;
+}
+
+.search-page .search-form button {
+    padding: 0 22px;
+    border: none;
+    border-radius: 10px;
+    background: #111111;
+    color: #ffffff;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.search-page .search-form button:hover {
+    background: #363636;
+}
+
+.search-heading {
+    margin: 30px 0 24px;
+}
+
+.search-heading h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 17px;
+}
+
+.search-heading p {
+    margin-top: 7px;
+    color: #a4a4a4;
+    font-size: 12px;
+}
+
+.search-results-section {
+    margin-top: 28px;
+}
+
+.search-section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 13px;
+}
+
+.search-section-heading h3 {
+    margin: 0;
+    color: #ffffff;
+    font-size: 17px;
+    font-weight: 800;
+}
+
+.search-section-heading > span {
+    padding: 6px 10px;
+    background: #2a2a2a;
+    border: 1px solid #3a3a3a;
+    border-radius: 20px;
+    color: #d0d0d0;
+    font-size: 11px;
+}
+
+/* User result cards */
+.search-page .search-user-list {
+    display: grid;
+    gap: 12px;
+}
+
+.search-page .search-user {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    min-width: 0;
+    padding: 18px;
+    background: linear-gradient(135deg, #ffffff, #f7f7f7);
+    border: 1px solid #e9e9e9;
+    border-radius: 17px;
+    color: #171717;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.search-page .search-user:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.2);
+}
+
+.search-page .search-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 58px;
+    height: 58px;
+    margin: 0;
+    padding: 0;
+    object-fit: cover;
+    border: 2px solid #e8e8e8;
+    border-radius: 50%;
+}
+
+.search-page .search-avatar-fallback {
+    background: #191919;
+    color: #ffffff;
+    font-size: 21px;
+    font-weight: 800;
+}
+
+.search-user-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.search-user-info strong {
+    display: block;
+    color: #151515;
+    font-size: 14px;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.search-user-info p {
+    margin: 5px 0 0;
+    color: #777777;
+    font-size: 12px;
+    overflow-wrap: anywhere;
+}
+
+.search-user-info .search-user-bio {
+    margin-top: 8px;
+    color: #505050;
+    line-height: 1.6;
+}
+
+.search-user-label {
+    flex-shrink: 0;
+    padding: 6px 9px;
+    background: #eeeeee;
+    border-radius: 20px;
+    color: #555555;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+}
+
+/* Post result cards */
+.search-page .search-post-card {
+    margin-bottom: 13px;
+    padding: 21px;
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 17px;
+    color: #202020;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.search-page .search-post-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 14px 30px rgba(0, 0, 0, 0.19);
+}
+
+.search-post-author {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+}
+
+.search-post-avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    background: #171717;
+    border-radius: 50%;
+    color: #ffffff;
+    font-weight: 800;
+}
+
+.search-post-author strong {
+    color: #171717;
+    font-size: 13px;
+}
+
+.search-post-author p {
+    margin: 4px 0 0;
+    color: #777777;
+    font-size: 11px;
+}
+
+.search-post-date {
+    margin: 15px 0 12px;
+    color: #888888;
+    font-size: 10px;
+}
+
+.search-post-content {
+    color: #303030;
+    font-size: 14px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+/* Empty states */
+.search-empty-card,
+.search-welcome-card {
+    padding: 32px 22px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.045);
+    border: 1px solid #353535;
+    border-radius: 17px;
+}
+
+.search-empty-icon,
+.search-welcome-symbol {
+    margin-bottom: 10px;
+    color: #ffffff;
+    font-size: 32px;
+}
+
+.search-empty-card h4,
+.search-welcome-card h3 {
+    margin: 0 0 8px;
+    color: #ffffff;
+    font-size: 16px;
+}
+
+.search-empty-card p,
+.search-welcome-card p {
+    margin: 0;
+    color: #aaaaaa;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+/* Small screens */
+@media (max-width: 520px) {
+    .search-page {
+        margin-top: 28px;
+    }
+
+    .search-page .search-form {
+        gap: 7px;
+    }
+
+    .search-page .search-form input {
+        padding: 12px 10px;
+        font-size: 12px;
+    }
+
+    .search-page .search-form button {
+        padding: 0 13px;
+        font-size: 12px;
+    }
+
+    .search-page .search-user {
+        gap: 11px;
+        padding: 14px;
+    }
+
+    .search-page .search-avatar {
+        width: 48px;
+        height: 48px;
+    }
+
+    .search-user-label {
+        display: none;
+    }
+}
+
+/* ===== SEARCH PAGE VISIBILITY FIX ===== */
+
+.search-page {
+    color: #f5f5f5;
+}
+
+/* Make headings readable on the light background */
+.search-page .search-page-header h2,
+.search-page .search-heading h3,
+.search-page .search-section-heading h3 {
+    color: #ffffff;
+}
+
+/* Give the search page a dark background */
+body:has(.search-page) {
+    background: #171717;
+    color: #f5f5f5;
+}
+
+.search-page .search-description,
+.search-page .search-heading p {
+    color: #b8b8b8;
+}
+
+/* Keep result cards white with dark text */
+.search-page .search-user,
+.search-page .search-post-card {
+    background: #ffffff;
+    color: #171717;
+}
+
+.search-page .search-user-info strong,
+.search-page .search-post-author strong {
+    color: #171717;
+}
+
+.search-page .search-user-info p,
+.search-page .search-post-author p,
+.search-page .search-post-date {
+    color: #777777;
+}
+
+.search-page .search-post-content {
+    color: #333333;
+}
+
+/* Search profile picture fix */
+.search-page .search-avatar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 58px;
+    height: 58px;
+    min-width: 58px;
+    overflow: hidden;
+    border-radius: 50%;
+    background: #191919;
+}
+
+.search-page .search-avatar img {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.search-page .search-avatar .avatar-fallback {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: #ffffff;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.search-page .search-user-info {
+    flex: 1;
+    min-width: 0;
 }
