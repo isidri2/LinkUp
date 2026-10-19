@@ -2284,3 +2284,22 @@ body:has(.search-page) {
     display: block;
     margin: 0 auto 15px;
 }
+
+/* FIX NEWSFEED POST IMAGES */
+
+.post {
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+}
+
+.post img {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    max-height: 500px;
+    object-fit: contain;
+    margin: 15px 0;
+    border-radius: 12px;
+}
