@@ -2273,3 +2273,14 @@ body:has(.search-page) {
     flex: 1;
     min-width: 0;
 }
+
+.profile-image {
+    width: 100px;
+    height: 100px;
+    max-width: 100px;
+    max-height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    display: block;
+    margin: 0 auto 15px;
+}
