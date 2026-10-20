@@ -4,8 +4,16 @@
 <head>
 
     <title>LinkUp - Newsfeed</title>
-    <link rel="icon" type="image/png" href="/webpt2/LinkUp/public/assets/logo-circle.png?v=2">    
+
+    <link
+        rel="icon"
+        type="image/png"
+        href="/webpt2/LinkUp/public/assets/logo-circle.png?v=2"
+    >
+
     <link rel="stylesheet" href="assets/style.css">
+
+    <script src="assets/script.js"></script>
 
     <style>
 
@@ -95,7 +103,9 @@ body.dark-mode .empty-result {
 }
 
 
-/* DARK MODE BUTTON */
+/* ==========================================
+   DARK MODE BUTTON
+   ========================================== */
 
 .dark-mode-button {
     border: none !important;
@@ -109,39 +119,62 @@ body.dark-mode .empty-result {
 body.dark-mode .dark-mode-button {
     background: #292929 !important;
     color: #ffffff !important;
-    border-color: #555555 !important;
 }
 
-.navbar > div {
+
+/* ==========================================
+   NAVBAR
+   ========================================== */
+
+.navbar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+
+/* LOGO */
+
+.navbar .brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.navbar .brand img {
+    width: 40px !important;
+    height: 40px !important;
+    object-fit: contain !important;
+    display: block !important;
+}
+
+.navbar .brand h1 {
+    margin: 0 !important;
+}
+
+
+/* NAVIGATION */
+
+.navbar > div:not(.brand) {
     display: flex !important;
     align-items: center !important;
     gap: 10px !important;
 }
 
+
+/* DARK MODE BUTTON */
+
 .navbar .dark-mode-button {
-    order: 4 !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
     margin: 0 !important;
 }
 
-.navbar .brand {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
 
-.navbar .brand img {
-    width: 40px;
-    height: 40px;
-    object-fit: contain;
-    display: block;
-}
-
-.navbar .brand h1 {
-    margin: 0;
-}
+/* ==========================================
+   BODY
+   ========================================== */
 
 </style>
 
@@ -149,30 +182,64 @@ body.dark-mode .dark-mode-button {
 
 <body>
 
+
+<!-- ==========================================
+     NAVBAR
+     ========================================== -->
+
 <nav class="navbar">
+
     <div class="brand">
-        <img src="assets/logo.png" alt="LinkUp Logo">
+
+        <img
+            src="assets/logo.png"
+            alt="LinkUp Logo"
+        >
+
         <h1>LinkUp</h1>
+
     </div>
 
+
     <div>
-        <a href="index.php?action=home">Newsfeed</a>
-        <a href="index.php?action=search">Search</a>
-        <a href="index.php?action=profile">Profile</a>
-        <a href="index.php?action=logout">Logout</a>
+
+        <a href="index.php?action=home">
+            Newsfeed
+        </a>
+
+        <a href="index.php?action=search">
+            Search
+        </a>
+
+        <a href="index.php?action=profile">
+            Profile
+        </a>
+
+        <a href="index.php?action=logout">
+            Logout
+        </a>
 
         <button
             type="button"
             id="darkModeToggle"
             class="dark-mode-button"
-        >🌙</button>
+        >
+            🌙
+        </button>
+
     </div>
+
 </nav>
 
+
+<!-- ==========================================
+     NEWSFEED
+     ========================================== -->
 
 <div class="feed-container">
 
     <h2>Newsfeed</h2>
+
 
     <a
         href="index.php?action=create_post"
@@ -185,7 +252,9 @@ body.dark-mode .dark-mode-button {
     <?php if (empty($posts)): ?>
 
         <div class="empty-result">
+
             <p>No posts yet.</p>
+
         </div>
 
     <?php endif; ?>
@@ -195,9 +264,11 @@ body.dark-mode .dark-mode-button {
 
         <div class="post">
 
+
             <!-- POST HEADER -->
 
             <div class="post-header">
+
 
                 <!-- PROFILE PICTURE -->
 
@@ -241,15 +312,19 @@ body.dark-mode .dark-mode-button {
                 <div class="post-user-info">
 
                     <strong>
+
                         <?= htmlspecialchars(
                             $post["full_name"] ?? $post["username"]
                         ) ?>
+
                     </strong>
 
                     <span>
+
                         @<?= htmlspecialchars(
                             $post["username"]
                         ) ?>
+
                     </span>
 
                 </div>
@@ -345,86 +420,111 @@ body.dark-mode .dark-mode-button {
 
             <!-- COMMENTS -->
 
-            <div class="comments">
+            <div
+                class="comments"
+                data-post-id="<?= $post["id"] ?>"
+            >
 
                 <h4>Comments</h4>
 
+
                 <?php
-                $comments = $postComments[$post["id"]];
+
+                $comments =
+                    $postComments[$post["id"]] ?? [];
+
                 ?>
 
 
                 <?php if (empty($comments)): ?>
 
-                    <p>No comments yet.</p>
+                    <p class="no-comments">
+                        No comments yet.
+                    </p>
 
                 <?php else: ?>
 
-                    <?php foreach ($comments as $comment): ?>
 
-                        <div class="comment">
-
-                            <strong>
-                                <?= htmlspecialchars(
-                                    $comment["full_name"]
-                                ) ?>
-                            </strong>
-
-                            <span>
-                                @<?= htmlspecialchars(
-                                    $comment["username"]
-                                ) ?>
-                            </span>
-
-                            <p>
-                                <?= nl2br(
-                                    htmlspecialchars(
-                                        $comment["content"]
-                                    )
-                                ) ?>
-                            </p>
+                    <div class="comments-list">
 
 
-                            <?php if (
-                                $comment["user_id"] ==
-                                $_SESSION["user_id"]
-                            ): ?>
+                        <?php foreach ($comments as $comment): ?>
 
-                                <a
-                                    href="index.php?action=edit_comment&id=<?= $comment["id"] ?>"
-                                >
-                                    Edit
-                                </a>
 
-                                <a
-                                    href="index.php?action=delete_comment&id=<?= $comment["id"] ?>"
-                                    onclick="return confirm('Delete this comment?')"
-                                >
-                                    Delete
-                                </a>
+                            <div class="comment">
 
-                            <?php endif; ?>
 
-                        </div>
+                                <strong>
 
-                    <?php endforeach; ?>
+                                    <?= htmlspecialchars(
+                                        $comment["full_name"]
+                                    ) ?>
+
+                                </strong>
+
+
+                                <span>
+
+                                    @<?= htmlspecialchars(
+                                        $comment["username"]
+                                    ) ?>
+
+                                </span>
+
+
+                                <p>
+
+                                    <?= nl2br(
+                                        htmlspecialchars(
+                                            $comment["content"]
+                                        )
+                                    ) ?>
+
+                                </p>
+
+
+                                <?php if (
+                                    $comment["user_id"]
+                                    == $_SESSION["user_id"]
+                                ): ?>
+
+
+                                    <a
+                                        href="index.php?action=edit_comment&id=<?= $comment["id"] ?>"
+                                    >
+                                        Edit
+                                    </a>
+
+
+                                    <a
+                                        href="index.php?action=delete_comment&id=<?= $comment["id"] ?>"
+                                        onclick="return confirm('Delete this comment?')"
+                                    >
+                                        Delete
+                                    </a>
+
+
+                                <?php endif; ?>
+
+
+                            </div>
+
+
+                        <?php endforeach; ?>
+
+
+                    </div>
+
 
                 <?php endif; ?>
 
 
-                <!-- COMMENT FORM -->
+                <!-- AJAX COMMENT FORM -->
 
                 <form
-                    method="POST"
-                    action="index.php?action=create_comment"
-                    class="comment-form"
+                    class="ajax-comment-form comment-form"
+                    data-post-id="<?= $post["id"] ?>"
                 >
-
-                    <input
-                        type="hidden"
-                        name="post_id"
-                        value="<?= $post["id"] ?>"
-                    >
 
                     <input
                         type="text"
@@ -433,22 +533,32 @@ body.dark-mode .dark-mode-button {
                         required
                     >
 
+
                     <button type="submit">
                         Comment
                     </button>
 
+
+                    <p class="ajax-comment-message"></p>
+
                 </form>
+
 
             </div>
 
+
         </div>
 
+
     <?php endforeach; ?>
+
 
 </div>
 
 
-<!-- DARK MODE SCRIPT -->
+<!-- ==========================================
+     DARK MODE SCRIPT
+     ========================================== -->
 
 <script>
 
@@ -463,26 +573,20 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* LOAD SAVED DARK MODE */
-
     if (
         localStorage.getItem("linkupDarkMode") === "enabled"
     ) {
 
         document.body.classList.add("dark-mode");
 
-        darkModeButton.innerHTML =
-            "☀️";
+        darkModeButton.innerHTML = "☀️";
 
     } else {
 
-        darkModeButton.innerHTML =
-            "🌙";
+        darkModeButton.innerHTML = "🌙";
 
     }
 
-
-    /* DARK MODE BUTTON */
 
     darkModeButton.addEventListener("click", function () {
 
@@ -498,8 +602,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "enabled"
             );
 
-            darkModeButton.innerHTML =
-                "☀️";
+            darkModeButton.innerHTML = "☀️";
 
         } else {
 
@@ -508,8 +611,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "disabled"
             );
 
-            darkModeButton.innerHTML =
-                "🌙";
+            darkModeButton.innerHTML = "🌙";
 
         }
 
@@ -518,7 +620,6 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 </script>
-
 
 
 </body>

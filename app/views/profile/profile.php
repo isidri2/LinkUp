@@ -5,6 +5,13 @@
 
     <title>LinkUp - My Profile</title>
 
+    <!-- FAVICON -->
+    <link
+        rel="icon"
+        type="image/png"
+        href="/webpt2/LinkUp/public/assets/logo-circle.png?v=2"
+    >
+
     <link rel="stylesheet" href="assets/style.css">
 
     <style>
@@ -19,36 +26,65 @@
     justify-content: space-between !important;
 }
 
-.navbar > div {
+/* LOGO + LINKUP */
+
+.navbar .brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.navbar .brand img {
+    width: 40px !important;
+    height: 40px !important;
+    object-fit: contain !important;
+    display: block !important;
+}
+
+.navbar .brand h1 {
+    margin: 0 !important;
+}
+
+/* NAVIGATION LINKS */
+
+.navbar > div:not(.brand) {
     display: flex !important;
     align-items: center !important;
     gap: 10px !important;
 }
 
-/* Newsfeed */
-.navbar > div > a:nth-child(1) {
-    order: 1 !important;
+/* ==========================================
+   EDIT PROFILE BUTTON
+   ========================================== */
+
+.edit-profile-button {
+    display: inline-block !important;
+    margin-top: 15px !important;
+    padding: 11px 22px !important;
+
+    background: #222 !important;
+    color: #ffffff !important;
+
+    border: 1px solid #222 !important;
+    border-radius: 10px !important;
+
+    text-decoration: none !important;
+    font-size: 15px !important;
+    font-weight: 600 !important;
+
+    cursor: pointer !important;
+    transition: all 0.2s ease !important;
 }
 
-/* Search */
-.navbar > div > a:nth-child(2) {
-    order: 2 !important;
+.edit-profile-button:hover {
+    background: #444 !important;
+    border-color: #444 !important;
+    transform: translateY(-1px);
 }
 
-/* Profile */
-.navbar > div > a:nth-child(3) {
-    order: 3 !important;
-}
+/* DARK MODE BUTTON */
 
-/* Logout */
-.navbar > div > a[href*="logout"] {
-    order: 4 !important;
-}
-
-/* Dark Mode Button - RIGHT SIDE OF LOGOUT */
-.navbar > div > button.dark-mode-button {
-    order: 5 !important;
-
+.navbar .dark-mode-button {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
@@ -61,6 +97,35 @@
 
     font-size: 20px !important;
     cursor: pointer !important;
+}
+
+
+/* ==========================================
+   PROFILE COVER PHOTO
+   ========================================== */
+
+.profile-cover {
+    width: 100%;
+    height: 220px;
+    overflow: hidden;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    background: #e5e7eb;
+}
+
+.profile-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.profile-cover-default {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #777;
+    font-size: 18px;
 }
 
 
@@ -138,23 +203,34 @@ body.dark-mode .dark-mode-button {
     border: none !important;
 }
 
-body.dark-mode .profile-posts,
-body.dark-mode .profile-posts h2 {
-    background: #1e1e1e !important;
-    color: #ffffff !important;
-
-}
-</style>
+    </style>
 
 </head>
 
 <body>
 
-<!---testing--->
+
+<!-- ==========================================
+     NAVBAR
+     ========================================== -->
 
 <nav class="navbar">
 
-    <h1>LinkUp</h1>
+    <!-- LOGO -->
+
+    <div class="brand">
+
+        <img
+            src="assets/logo.png"
+            alt="LinkUp Logo"
+        >
+
+        <h1>LinkUp</h1>
+
+    </div>
+
+
+    <!-- NAVIGATION -->
 
     <div>
 
@@ -185,13 +261,47 @@ body.dark-mode .profile-posts h2 {
 </nav>
 
 
+<!-- ==========================================
+     PROFILE CONTAINER
+     ========================================== -->
+
 <div class="profile-container">
 
 
-    <!-- PROFILE CARD -->
+    <!-- PROFILE COVER -->
+
+    <?php if (!empty($user["cover_photo"])): ?>
+
+        <div class="profile-cover">
+
+            <img
+                src="uploads/<?= htmlspecialchars($user["cover_photo"]) ?>"
+                alt="Profile Cover Photo"
+            >
+
+        </div>
+
+    <?php else: ?>
+
+        <div class="profile-cover profile-cover-default">
+
+            <span>
+                Profile Cover
+            </span>
+
+        </div>
+
+    <?php endif; ?>
+
+
+    <!-- ==========================================
+         PROFILE CARD
+         ========================================== -->
 
     <div class="profile-card">
 
+
+        <!-- PROFILE IMAGE -->
 
         <?php if (!empty($user["profile_image"])): ?>
 
@@ -218,6 +328,8 @@ body.dark-mode .profile-posts h2 {
         <?php endif; ?>
 
 
+        <!-- FULL NAME -->
+
         <h2>
 
             <?= htmlspecialchars(
@@ -227,6 +339,8 @@ body.dark-mode .profile-posts h2 {
         </h2>
 
 
+        <!-- USERNAME -->
+
         <p class="username">
 
             @<?= htmlspecialchars(
@@ -235,6 +349,8 @@ body.dark-mode .profile-posts h2 {
 
         </p>
 
+
+        <!-- BIO -->
 
         <?php if (!empty($user["bio"])): ?>
 
@@ -259,6 +375,8 @@ body.dark-mode .profile-posts h2 {
         <?php endif; ?>
 
 
+        <!-- EDIT PROFILE -->
+
         <a
             href="index.php?action=edit_profile"
             class="edit-profile-button"
@@ -266,10 +384,13 @@ body.dark-mode .profile-posts h2 {
             Edit Profile
         </a>
 
+
     </div>
 
 
-    <!-- MY POSTS -->
+    <!-- ==========================================
+         MY POSTS
+         ========================================== -->
 
     <div class="profile-posts">
 
@@ -303,6 +424,8 @@ body.dark-mode .profile-posts h2 {
                 <div class="post">
 
 
+                    <!-- POST HEADER -->
+
                     <div class="post-header">
 
                         <strong>
@@ -324,6 +447,8 @@ body.dark-mode .profile-posts h2 {
                     </div>
 
 
+                    <!-- POST DATE -->
+
                     <p class="post-date">
 
                         <?= htmlspecialchars(
@@ -332,6 +457,8 @@ body.dark-mode .profile-posts h2 {
 
                     </p>
 
+
+                    <!-- POST CONTENT -->
 
                     <div class="post-content">
 
@@ -343,6 +470,8 @@ body.dark-mode .profile-posts h2 {
 
                     </div>
 
+
+                    <!-- POST ACTIONS -->
 
                     <div class="post-actions">
 
@@ -373,17 +502,27 @@ body.dark-mode .profile-posts h2 {
 
     </div>
 
+
 </div>
 
+
+<!-- ==========================================
+     DARK MODE SCRIPT
+     ========================================== -->
+
 <script>
+
 document.addEventListener("DOMContentLoaded", function () {
+
 
     const darkModeButton =
         document.getElementById("darkModeToggle");
 
+
     if (!darkModeButton) {
         return;
     }
+
 
     /* LOAD SAVED DARK MODE */
 
@@ -393,21 +532,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
         document.body.classList.add("dark-mode");
 
-        darkModeButton.innerHTML =
-            "☀️";
+        darkModeButton.innerHTML = "☀️";
 
     } else {
 
-        darkModeButton.innerHTML =
-            "🌙";
+        darkModeButton.innerHTML = "🌙";
 
     }
+
 
     /* DARK MODE BUTTON */
 
     darkModeButton.addEventListener("click", function () {
 
+
         document.body.classList.toggle("dark-mode");
+
 
         if (
             document.body.classList.contains("dark-mode")
@@ -418,8 +558,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 "enabled"
             );
 
-            darkModeButton.innerHTML =
-                "☀️";
+            darkModeButton.innerHTML = "☀️";
+
 
         } else {
 
@@ -428,15 +568,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 "disabled"
             );
 
-            darkModeButton.innerHTML =
-                "🌙";
+            darkModeButton.innerHTML = "🌙";
 
         }
 
+
     });
 
+
 });
+
 </script>
+
 
 </body>
 

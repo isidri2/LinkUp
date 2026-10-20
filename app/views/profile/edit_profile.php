@@ -5,6 +5,13 @@
 
     <title>LinkUp - Edit Profile</title>
 
+    <!-- FAVICON -->
+    <link
+        rel="icon"
+        type="image/png"
+        href="/webpt2/LinkUp/public/assets/logo-circle.png?v=2"
+    >
+
     <link rel="stylesheet" href="assets/style.css">
 
     <!-- Cropper.js CSS -->
@@ -14,8 +21,6 @@
     >
 
     <style>
-
-        <style>
 
 /* ==========================================
    EDIT PROFILE
@@ -46,7 +51,7 @@
 }
 
 .crop-button {
-    background: #1877f2;
+    background: #222;
     color: white;
 }
 
@@ -75,30 +80,53 @@
    NAVBAR
    ========================================== */
 
-.navbar > div {
+.navbar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+.navbar .brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+}
+
+.navbar .brand img {
+    width: 40px !important;
+    height: 40px !important;
+    object-fit: contain !important;
+    display: block !important;
+}
+
+.navbar .brand h1 {
+    margin: 0 !important;
+}
+
+.navbar > div:not(.brand) {
     display: flex !important;
     align-items: center !important;
     gap: 10px !important;
 }
 
-.navbar > div > a:nth-child(1) {
-    order: 1 !important;
-}
 
-.navbar > div > a:nth-child(2) {
-    order: 2 !important;
-}
+/* ==========================================
+   DARK MODE BUTTON
+   ========================================== */
 
-.navbar > div > a:nth-child(3) {
-    order: 3 !important;
-}
+.navbar .dark-mode-button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 
-.navbar > div > a[href*="logout"] {
-    order: 4 !important;
-}
+    margin: 0 !important;
+    padding: 5px !important;
 
-.navbar > div > button.dark-mode-button {
-    order: 5 !important;
+    background: transparent !important;
+    border: none !important;
+
+    font-size: 20px !important;
+    cursor: pointer !important;
 }
 
 
@@ -120,31 +148,19 @@ body.dark-mode .navbar a {
     color: #ffffff !important;
 }
 
-
-/* Form container */
-
 body.dark-mode .form-container {
     background: #1e1e1e !important;
     color: #ffffff !important;
 }
-
-
-/* Headings */
 
 body.dark-mode .form-container h1,
 body.dark-mode .form-container h3 {
     color: #ffffff !important;
 }
 
-
-/* Labels */
-
 body.dark-mode .form-container label {
     color: #ffffff !important;
 }
-
-
-/* Input */
 
 body.dark-mode .form-container input[type="text"],
 body.dark-mode .form-container textarea {
@@ -153,37 +169,22 @@ body.dark-mode .form-container textarea {
     border-color: #555555 !important;
 }
 
-
-/* Placeholder */
-
 body.dark-mode .form-container input::placeholder,
 body.dark-mode .form-container textarea::placeholder {
     color: #aaaaaa !important;
 }
 
-
-/* File input */
-
 body.dark-mode .form-container input[type="file"] {
     color: #ffffff !important;
 }
-
-
-/* Image information */
 
 body.dark-mode .image-info {
     color: #aaaaaa !important;
 }
 
-
-/* Current photo text */
-
 body.dark-mode .current-photo-text {
     color: #ffffff !important;
 }
-
-
-/* Crop container */
 
 body.dark-mode .crop-container {
     background: #292929 !important;
@@ -192,11 +193,8 @@ body.dark-mode .crop-container {
     border-radius: 8px !important;
 }
 
-
-/* Crop buttons */
-
 body.dark-mode .crop-button {
-    background: #1877f2 !important;
+    background: #222222 !important;
     color: #ffffff !important;
 }
 
@@ -205,24 +203,15 @@ body.dark-mode .cancel-crop {
     color: #ffffff !important;
 }
 
-
-/* Dark mode button */
-
 body.dark-mode .dark-mode-button {
     background: transparent !important;
     color: #ffffff !important;
     border: none !important;
 }
 
-
-/* Back link */
-
 body.dark-mode .back-link {
     color: #7db4ff !important;
 }
-
-
-/* Error */
 
 body.dark-mode .error {
     color: #ff7777 !important;
@@ -230,17 +219,29 @@ body.dark-mode .error {
 
 </style>
 
-    </style>
-
 </head>
 
 
 <body>
 
 
+<!-- ==========================================
+     NAVBAR
+     ========================================== -->
+
 <nav class="navbar">
 
-    <h1>LinkUp</h1>
+    <div class="brand">
+
+        <img
+            src="assets/logo.png"
+            alt="LinkUp Logo"
+        >
+
+        <h1>LinkUp</h1>
+
+    </div>
+
 
     <div>
 
@@ -271,6 +272,10 @@ body.dark-mode .error {
 </nav>
 
 
+<!-- ==========================================
+     EDIT PROFILE FORM
+     ========================================== -->
+
 <div class="form-container">
 
     <h1>Edit Profile</h1>
@@ -292,6 +297,8 @@ body.dark-mode .error {
     >
 
 
+        <!-- FULL NAME -->
+
         <label for="full_name">
             Full Name
         </label>
@@ -306,6 +313,8 @@ body.dark-mode .error {
         >
 
 
+        <!-- BIO -->
+
         <label for="bio">
             Bio
         </label>
@@ -316,6 +325,8 @@ body.dark-mode .error {
             placeholder="Write something about yourself..."
         ><?= htmlspecialchars($user["bio"] ?? "") ?></textarea>
 
+
+        <!-- PROFILE PHOTO -->
 
         <label for="profile_image">
             Profile Photo
@@ -328,12 +339,27 @@ body.dark-mode .error {
             accept="image/jpeg,image/png,image/gif"
         >
 
+
+        <!-- COVER PHOTO -->
+
+        <label for="cover_photo">
+            Profile Cover Photo
+        </label>
+
+        <input
+            type="file"
+            id="cover_photo"
+            name="cover_photo"
+            accept="image/jpeg,image/png,image/gif"
+        >
+
+
         <p class="image-info">
             JPG, JPEG, PNG, or GIF. Maximum 5 MB.
         </p>
 
 
-        <!-- Image preview -->
+        <!-- IMAGE PREVIEW -->
 
         <img
             id="imagePreview"
@@ -342,19 +368,22 @@ body.dark-mode .error {
         >
 
 
-        <!-- Cropping area -->
+        <!-- CROPPING AREA -->
 
         <div
             class="crop-container"
             id="cropContainer"
         >
 
-            <h3>Crop Your Profile Photo</h3>
+            <h3>
+                Crop Your Profile Photo
+            </h3>
 
             <img
                 id="cropImage"
                 alt="Image to crop"
             >
+
 
             <div class="crop-buttons">
 
@@ -365,6 +394,7 @@ body.dark-mode .error {
                 >
                     Crop Image
                 </button>
+
 
                 <button
                     type="button"
@@ -379,7 +409,7 @@ body.dark-mode .error {
         </div>
 
 
-        <!-- Hidden cropped image -->
+        <!-- HIDDEN CROPPED IMAGE -->
 
         <input
             type="hidden"
@@ -387,6 +417,8 @@ body.dark-mode .error {
             id="croppedImage"
         >
 
+
+        <!-- CURRENT PROFILE PHOTO -->
 
         <?php if (!empty($user["profile_image"])): ?>
 
@@ -403,6 +435,8 @@ body.dark-mode .error {
         <?php endif; ?>
 
 
+        <!-- SAVE -->
+
         <button type="submit">
             Save Changes
         </button>
@@ -410,6 +444,8 @@ body.dark-mode .error {
 
     </form>
 
+
+    <!-- BACK -->
 
     <a
         href="index.php?action=profile"
@@ -422,7 +458,9 @@ body.dark-mode .error {
 </div>
 
 
-<!-- Cropper.js -->
+<!-- ==========================================
+     CROPPER.JS
+     ========================================== -->
 
 <script
     src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.2/cropper.min.js">
@@ -633,12 +671,18 @@ cancelCrop.addEventListener("click", function () {
 
 </script>
 
+
+<!-- ==========================================
+     DARK MODE
+     ========================================== -->
+
 <script>
 
 document.addEventListener("DOMContentLoaded", function () {
 
     const darkModeButton =
         document.getElementById("darkModeToggle");
+
 
     if (!darkModeButton) {
         return;
@@ -696,6 +740,7 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 </script>
+
 
 </body>
 

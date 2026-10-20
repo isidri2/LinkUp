@@ -57,6 +57,7 @@ class ProfileController
             $bio = trim($_POST["bio"] ?? "");
 
             $profile_image = $user["profile_image"] ?? "";
+            $cover_photo = $user["cover_photo"] ?? "";
 
 
             /*
@@ -395,6 +396,103 @@ class ProfileController
                 }
             }
 
+            /*
+            * COVER PHOTO UPLOAD
+            */
+
+        if (
+        isset($_FILES["cover_photo"]) &&
+        $_FILES["cover_photo"]["error"] != UPLOAD_ERR_NO_FILE
+    ) {
+
+        $coverFile = $_FILES["cover_photo"];
+
+        // Check upload error
+        if ($coverFile["error"] !== UPLOAD_ERR_OK) {
+        $error = "There was a problem uploading the cover photo.";
+        require "../app/views/profile/edit_profile.php";
+        return;
+    }
+
+        // Maximum 5 MB
+        if ($coverFile["size"] > 5 * 1024 * 1024) {
+        $error = "Cover photo must not exceed 5 MB.";
+        require "../app/views/profile/edit_profile.php";
+        return;
+    }
+
+        // Check extension
+        $coverExtension = strtolower(
+        pathinfo(
+            $coverFile["name"],
+            PATHINFO_EXTENSION
+        )
+    );
+
+        $allowedCoverExtensions = [
+        "jpg",
+        "jpeg",
+        "png",
+        "gif"
+    ];
+
+        if (!in_array($coverExtension, $allowedCoverExtensions)) {
+        $error = "Only JPG, JPEG, PNG, and GIF cover photos are allowed.";
+        require "../app/views/profile/edit_profile.php";
+        return;
+    }
+
+    // Check if real image
+    $coverImageInfo = getimagesize(
+        $coverFile["tmp_name"]
+    );
+
+    if ($coverImageInfo === false) {
+        $error = "The uploaded cover photo is not a valid image.";
+        require "../app/views/profile/edit_profile.php";
+        return;
+    }
+
+    // Upload folder
+    $uploadFolder =
+        __DIR__ .
+        "/../../public/uploads/";
+
+    if (!is_dir($uploadFolder)) {
+        mkdir(
+            $uploadFolder,
+            0777,
+            true
+        );
+    }
+
+    // Safe filename
+    $newCoverFileName =
+        "cover_" .
+        $user_id .
+        "_" .
+        time() .
+        "." .
+        $coverExtension;
+
+    $coverUploadPath =
+        $uploadFolder .
+        $newCoverFileName;
+
+    // Save cover photo
+    if (
+        move_uploaded_file(
+            $coverFile["tmp_name"],
+            $coverUploadPath
+        )
+    ) {
+        $cover_photo = $newCoverFileName;
+    } else {
+        $error = "Failed to save the cover photo.";
+        require "../app/views/profile/edit_profile.php";
+        return;
+    }
+}
 
             /*
              * UPDATE PROFILE
@@ -404,7 +502,9 @@ class ProfileController
                 $user_id,
                 $full_name,
                 $bio,
-                $profile_image
+                $profile_image,
+                $cover_photo
+
             );
 
 

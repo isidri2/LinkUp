@@ -68,26 +68,29 @@ class UserModel
 
     // Update a user's profile.
     public function updateProfile(
-        $id,
+    $id,
+    $full_name,
+    $bio,
+    $profile_image,
+    $cover_photo
+) {
+    $sql = "UPDATE users
+            SET full_name = ?,
+                bio = ?,
+                profile_image = ?,
+                cover_photo = ?
+            WHERE id = ?";
+
+    $stmt = $this->conn->prepare($sql);
+
+    return $stmt->execute([
         $full_name,
         $bio,
-        $profile_image
-    ) {
-        $sql = "UPDATE users
-                SET full_name = ?,
-                    bio = ?,
-                    profile_image = ?
-                WHERE id = ?";
-
-        $stmt = $this->conn->prepare($sql);
-
-        return $stmt->execute([
-            $full_name,
-            $bio,
-            $profile_image,
-            $id
-        ]);
-    }
+        $profile_image,
+        $cover_photo,
+        $id
+    ]);
+}
 
     // Search users by username or full name.
     public function searchUsers($keyword)

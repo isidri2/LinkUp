@@ -12,26 +12,59 @@ class CommentController
     }
 
     public function create()
-    {
-        if (!isset($_SESSION["user_id"])) {
-            header("Location: index.php?action=login");
+{
+    if (!isset($_SESSION["user_id"])) {
+
+        if (isset($_POST["ajax"])) {
+            echo json_encode([
+                "success" => false,
+                "message" => "You must be logged in."
+            ]);
             exit;
         }
 
-        $post_id = $_POST["post_id"] ?? 0;
-        $content = trim($_POST["content"] ?? "");
+        header("Location: index.php?action=login");
+        exit;
+    }
 
-        if (!empty($content)) {
-            $this->commentModel->createComment(
-                $post_id,
-                $_SESSION["user_id"],
-                $content
-            );
+    $post_id = $_POST["post_id"] ?? 0;
+    $content = trim($_POST["content"] ?? "");
+
+    if (empty($content)) {
+
+        if (isset($_POST["ajax"])) {
+            echo json_encode([
+                "success" => false,
+                "message" => "Comment cannot be empty."
+            ]);
+            exit;
         }
 
         header("Location: index.php?action=home");
         exit;
     }
+
+    $this->commentModel->createComment(
+        $post_id,
+        $_SESSION["user_id"],
+        $content
+    );
+
+    // AJAX request
+    if (isset($_POST["ajax"])) {
+
+        echo json_encode([
+            "success" => true,
+            "message" => "Comment added successfully."
+        ]);
+
+        exit;
+    }
+
+    // Normal request
+    header("Location: index.php?action=home");
+    exit;
+}
 
     public function edit()
     {

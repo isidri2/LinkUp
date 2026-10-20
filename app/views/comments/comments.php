@@ -11,11 +11,36 @@ if (!isset($comments) || !is_array($comments)) {
 ?>
 
 <div class="comments-section">
+
+    <?php if (isset($_SESSION["user_id"])): ?>
+
+    <form
+        class="ajax-comment-form"
+        data-post-id="<?= (int) ($post["id"] ?? 0) ?>"
+    >
+        <input
+            type="text"
+            name="content"
+            placeholder="Write a comment..."
+            required
+        >
+
+        <button type="submit">
+            Comment
+        </button>
+
+        <p class="ajax-comment-message"></p>
+    </form>
+
+    <?php endif; ?>
+
     <h3>Comments</h3>
 
     <?php if (empty($comments)): ?>
         <p class="no-comments">No comments yet. Be the first to comment!</p>
     <?php else: ?>
+
+    <div class="comments-list">
 
         <?php foreach ($comments as $comment): ?>
             <div class="comment-item">
@@ -74,6 +99,8 @@ if (!isset($comments) || !is_array($comments)) {
             </div>
         <?php endforeach; ?>
 
-    <?php endif; ?>
+    </div>
+
+<?php endif; ?>
 </div>
 ```

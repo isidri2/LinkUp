@@ -52,6 +52,10 @@ switch ($action) {
         $commentController->create();
         break;
 
+    case "ajax_create_comment":
+        $commentController->create();
+        break;
+
     case "edit_comment":
         $commentController->edit();
         break;
