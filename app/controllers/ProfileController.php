@@ -32,11 +32,8 @@ class ProfileController
         foreach ($allPosts as $post) {
 
             if ($post["user_id"] == $user_id) {
-
                 $posts[] = $post;
-
             }
-
         }
 
         require "../app/views/profile/profile.php";
@@ -54,14 +51,17 @@ class ProfileController
 
         $user = $this->userModel->findById($user_id);
 
-
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-            $full_name = trim($_POST["full_name"]);
-            $bio = trim($_POST["bio"]);
+            $full_name = trim($_POST["full_name"] ?? "");
+            $bio = trim($_POST["bio"] ?? "");
 
-            $profile_image = $user["profile_image"];
+            $profile_image = $user["profile_image"] ?? "";
 
+
+            /*
+             * CHECK FULL NAME
+             */
 
             if (empty($full_name)) {
 
@@ -74,25 +74,218 @@ class ProfileController
 
 
             /*
-             * PROFILE PHOTO UPLOAD
+             * CHECK CROPPED IMAGE
              */
 
-            if (
+            if (!empty($_POST["cropped_image"])) {
+
+                $croppedImage = $_POST["cropped_image"];
+
+
+                /*
+                 * CHECK BASE64 FORMAT
+                 */
+
+                if (
+                    preg_match(
+                        '/^data:image\/jpeg;base64,/',
+                        $croppedImage
+                    )
+                ) {
+
+                    /*
+                     * REMOVE BASE64 HEADER
+                     */
+
+                    $croppedImage = preg_replace(
+                        '/^data:image\/jpeg;base64,/',
+                        "",
+                        $croppedImage
+                    );
+
+
+                    /*
+                     * DECODE IMAGE
+                     */
+
+                    $imageData = base64_decode(
+                        $croppedImage,
+                        true
+                    );
+
+
+                    if ($imageData === false) {
+
+                        $error = "Invalid cropped image.";
+
+                        require "../app/views/profile/edit_profile.php";
+
+                        return;
+                    }
+
+
+                    /*
+                     * CHECK IMAGE SIZE
+                     */
+
+                    if (strlen($imageData) > 5 * 1024 * 1024) {
+
+                        $error = "Cropped image is too large.";
+
+                        require "../app/views/profile/edit_profile.php";
+
+                        return;
+                    }
+
+
+                    /*
+                     * VERIFY IMAGE
+                     */
+
+                    $imageInfo = getimagesizefromstring(
+                        $imageData
+                    );
+
+
+                    if ($imageInfo === false) {
+
+                        $error = "Invalid image data.";
+
+                        require "../app/views/profile/edit_profile.php";
+
+                        return;
+                    }
+
+
+                    /*
+                     * CREATE UPLOAD FOLDER
+                     */
+
+                    $uploadFolder =
+                        __DIR__ .
+                        "/../../public/uploads/";
+
+
+                    if (!is_dir($uploadFolder)) {
+
+                        mkdir(
+                            $uploadFolder,
+                            0777,
+                            true
+                        );
+                    }
+
+
+                    /*
+                     * CREATE SAFE FILE NAME
+                     */
+
+                    $newFileName =
+                        "profile_" .
+                        $user_id .
+                        "_" .
+                        time() .
+                        ".jpg";
+
+
+                    $uploadPath =
+                        $uploadFolder .
+                        $newFileName;
+
+
+                    /*
+                     * SAVE CROPPED IMAGE
+                     */
+
+                    if (
+                        file_put_contents(
+                            $uploadPath,
+                            $imageData
+                        ) === false
+                    ) {
+
+                        $error = "Failed to save the cropped image.";
+
+                        require "../app/views/profile/edit_profile.php";
+
+                        return;
+                    }
+
+
+                    /*
+                     * UPDATE PROFILE IMAGE
+                     */
+
+                    $profile_image =
+                        $newFileName;
+
+                }
+
+            }
+
+
+            /*
+             * NORMAL FILE UPLOAD
+             *
+             * This is used if no cropped image
+             * was created.
+             */
+
+            elseif (
                 isset($_FILES["profile_image"]) &&
-                $_FILES["profile_image"]["error"] == 0
+                $_FILES["profile_image"]["error"] != UPLOAD_ERR_NO_FILE
             ) {
 
                 $file = $_FILES["profile_image"];
 
-                $fileName = $file["name"];
-                $fileTmp = $file["tmp_name"];
 
-                $fileExtension = strtolower(
-                    pathinfo(
-                        $fileName,
-                        PATHINFO_EXTENSION
-                    )
-                );
+                /*
+                 * CHECK UPLOAD ERROR
+                 */
+
+                if ($file["error"] !== UPLOAD_ERR_OK) {
+
+                    $error = "There was a problem uploading the image.";
+
+                    require "../app/views/profile/edit_profile.php";
+
+                    return;
+                }
+
+
+                /*
+                 * MAXIMUM FILE SIZE
+                 */
+
+                $maxFileSize =
+                    5 * 1024 * 1024;
+
+
+                if ($file["size"] > $maxFileSize) {
+
+                    $error = "Image size must not exceed 5 MB.";
+
+                    require "../app/views/profile/edit_profile.php";
+
+                    return;
+                }
+
+
+                /*
+                 * CHECK FILE EXTENSION
+                 */
+
+                $fileName =
+                    $file["name"];
+
+
+                $fileExtension =
+                    strtolower(
+                        pathinfo(
+                            $fileName,
+                            PATHINFO_EXTENSION
+                        )
+                    );
 
 
                 $allowedExtensions = [
@@ -110,13 +303,39 @@ class ProfileController
                     )
                 ) {
 
-                    $error = "Only JPG, JPEG, PNG, and GIF images are allowed.";
+                    $error =
+                        "Only JPG, JPEG, PNG, and GIF images are allowed.";
 
                     require "../app/views/profile/edit_profile.php";
 
                     return;
                 }
 
+
+                /*
+                 * CHECK REAL IMAGE
+                 */
+
+                $imageInfo =
+                    getimagesize(
+                        $file["tmp_name"]
+                    );
+
+
+                if ($imageInfo === false) {
+
+                    $error =
+                        "The uploaded file is not a valid image.";
+
+                    require "../app/views/profile/edit_profile.php";
+
+                    return;
+                }
+
+
+                /*
+                 * CREATE SAFE FILE NAME
+                 */
 
                 $newFileName =
                     "profile_" .
@@ -126,6 +345,10 @@ class ProfileController
                     "." .
                     $fileExtension;
 
+
+                /*
+                 * UPLOAD FOLDER
+                 */
 
                 $uploadFolder =
                     __DIR__ .
@@ -139,9 +362,12 @@ class ProfileController
                         0777,
                         true
                     );
-
                 }
 
+
+                /*
+                 * SAVE IMAGE
+                 */
 
                 $uploadPath =
                     $uploadFolder .
@@ -150,7 +376,7 @@ class ProfileController
 
                 if (
                     move_uploaded_file(
-                        $fileTmp,
+                        $file["tmp_name"],
                         $uploadPath
                     )
                 ) {
@@ -158,10 +384,21 @@ class ProfileController
                     $profile_image =
                         $newFileName;
 
-                }
+                } else {
 
+                    $error =
+                        "Failed to save the uploaded image.";
+
+                    require "../app/views/profile/edit_profile.php";
+
+                    return;
+                }
             }
 
+
+            /*
+             * UPDATE PROFILE
+             */
 
             $this->userModel->updateProfile(
                 $user_id,
@@ -170,6 +407,10 @@ class ProfileController
                 $profile_image
             );
 
+
+            /*
+             * RETURN TO PROFILE
+             */
 
             header(
                 "Location: index.php?action=profile"

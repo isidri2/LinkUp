@@ -7,6 +7,145 @@
 
     <link rel="stylesheet" href="assets/style.css">
 
+    <style>
+
+/* ==========================================
+   NAVBAR
+   ========================================== */
+
+.navbar {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+}
+
+.navbar > div {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+/* Newsfeed */
+.navbar > div > a:nth-child(1) {
+    order: 1 !important;
+}
+
+/* Search */
+.navbar > div > a:nth-child(2) {
+    order: 2 !important;
+}
+
+/* Profile */
+.navbar > div > a:nth-child(3) {
+    order: 3 !important;
+}
+
+/* Logout */
+.navbar > div > a[href*="logout"] {
+    order: 4 !important;
+}
+
+/* Dark Mode Button - RIGHT SIDE OF LOGOUT */
+.navbar > div > button.dark-mode-button {
+    order: 5 !important;
+
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    margin: 0 !important;
+    padding: 5px !important;
+
+    background: transparent !important;
+    border: none !important;
+
+    font-size: 20px !important;
+    cursor: pointer !important;
+}
+
+
+/* ==========================================
+   DARK MODE
+   ========================================== */
+
+body.dark-mode {
+    background: #121212 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .navbar {
+    background: #1e1e1e !important;
+}
+
+body.dark-mode .navbar h1,
+body.dark-mode .navbar a {
+    color: #ffffff !important;
+}
+
+body.dark-mode .profile-container {
+    background: #121212 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .profile-card,
+body.dark-mode .profile-posts {
+    background: #1e1e1e !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .profile-card h2,
+body.dark-mode .profile-posts h2 {
+    color: #ffffff !important;
+}
+
+body.dark-mode .username {
+    color: #bbbbbb !important;
+}
+
+body.dark-mode .bio {
+    color: #ffffff !important;
+}
+
+body.dark-mode .post {
+    background: #292929 !important;
+    color: #ffffff !important;
+    border-color: #444444 !important;
+}
+
+body.dark-mode .post strong,
+body.dark-mode .post span,
+body.dark-mode .post p,
+body.dark-mode .post-content {
+    color: #ffffff !important;
+}
+
+body.dark-mode .post-date {
+    color: #aaaaaa !important;
+}
+
+body.dark-mode .post-actions a {
+    color: #7db4ff !important;
+}
+
+body.dark-mode .empty-result {
+    background: #292929 !important;
+    color: #ffffff !important;
+}
+
+body.dark-mode .dark-mode-button {
+    background: transparent !important;
+    color: #ffffff !important;
+    border: none !important;
+}
+
+body.dark-mode .profile-posts,
+body.dark-mode .profile-posts h2 {
+    background: #1e1e1e !important;
+    color: #ffffff !important;
+
+}
+</style>
+
 </head>
 
 <body>
@@ -34,6 +173,12 @@
         <a href="index.php?action=logout">
             Logout
         </a>
+
+        <button
+            type="button"
+            id="darkModeToggle"
+            class="dark-mode-button"
+        >🌙</button>
 
     </div>
 
@@ -230,6 +375,68 @@
 
 </div>
 
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const darkModeButton =
+        document.getElementById("darkModeToggle");
+
+    if (!darkModeButton) {
+        return;
+    }
+
+    /* LOAD SAVED DARK MODE */
+
+    if (
+        localStorage.getItem("linkupDarkMode") === "enabled"
+    ) {
+
+        document.body.classList.add("dark-mode");
+
+        darkModeButton.innerHTML =
+            "☀️";
+
+    } else {
+
+        darkModeButton.innerHTML =
+            "🌙";
+
+    }
+
+    /* DARK MODE BUTTON */
+
+    darkModeButton.addEventListener("click", function () {
+
+        document.body.classList.toggle("dark-mode");
+
+        if (
+            document.body.classList.contains("dark-mode")
+        ) {
+
+            localStorage.setItem(
+                "linkupDarkMode",
+                "enabled"
+            );
+
+            darkModeButton.innerHTML =
+                "☀️";
+
+        } else {
+
+            localStorage.setItem(
+                "linkupDarkMode",
+                "disabled"
+            );
+
+            darkModeButton.innerHTML =
+                "🌙";
+
+        }
+
+    });
+
+});
+</script>
 
 </body>
 

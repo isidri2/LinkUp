@@ -1,4 +1,3 @@
-
 <?php
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -10,38 +9,142 @@ $username = $_SESSION['username'] ?? 'My Account';
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
     <title>LinkUp</title>
-    <link rel="stylesheet" href="/html/LinkUp/public/assets/style.css">
+
+    <link
+        rel="stylesheet"
+        href="/html/LinkUp/public/assets/style.css"
+    >
+
 </head>
+
+
 <body>
 
+
 <header class="linkup-header">
-    <a href="/html/LinkUp/public/index.php?action=home"
-       class="linkup-logo">
+
+    <a
+        href="/html/LinkUp/public/index.php?action=home"
+        class="linkup-logo"
+    >
         <span class="logo-icon">L</span>
         <span>LinkUp</span>
     </a>
 
+
     <nav class="linkup-nav">
-        <a href="/html/LinkUp/public/index.php?action=home"
-           class="nav-link">
+
+        <a
+            href="/html/LinkUp/public/index.php?action=home"
+            class="nav-link"
+        >
             <span class="nav-icon">⌂</span>
             <span>Newsfeed</span>
         </a>
 
-        <a href="/html/LinkUp/public/index.php?action=profile"
-           class="nav-link">
+
+        <a
+            href="/html/LinkUp/public/index.php?action=profile"
+            class="nav-link"
+        >
             <span class="nav-icon">♙</span>
             <span>Profile</span>
         </a>
 
-        <a href="/html/LinkUp/public/index.php?action=logout"
-           class="nav-link logout-link">
+
+        <!-- DARK MODE BUTTON -->
+
+        <button
+            type="button"
+            id="darkModeToggle"
+            class="dark-mode-button"
+        >
+            🌙 Dark Mode
+        </button>
+
+
+        <a
+            href="/html/LinkUp/public/index.php?action=logout"
+            class="nav-link logout-link"
+        >
             <span class="nav-icon">↪</span>
             <span>Logout</span>
         </a>
+
     </nav>
+
 </header>
+
+
+<script>
+
+const darkModeToggle =
+    document.getElementById("darkModeToggle");
+
+
+/*
+ * CHECK SAVED DARK MODE
+ */
+
+if (localStorage.getItem("linkupDarkMode") === "enabled") {
+
+    document.body.classList.add("dark-mode");
+
+    darkModeToggle.textContent =
+        "☀️ Light Mode";
+
+}
+
+
+/*
+ * TOGGLE DARK MODE
+ */
+
+darkModeToggle.addEventListener("click", function () {
+
+    document.body.classList.toggle("dark-mode");
+
+
+    if (
+        document.body.classList.contains("dark-mode")
+    ) {
+
+        localStorage.setItem(
+            "linkupDarkMode",
+            "enabled"
+        );
+
+        darkModeToggle.textContent =
+            "☀️ Light Mode";
+
+    } else {
+
+        localStorage.setItem(
+            "linkupDarkMode",
+            "disabled"
+        );
+
+        darkModeToggle.textContent =
+            "🌙 Dark Mode";
+
+    }
+
+});
+
+</script>
+
+
+</body>
+
+</html>
