@@ -11,6 +11,18 @@
 
 <body>
 
+<!-- DARK MODE BUTTON -->
+<button
+    type="button"
+    id="themeToggle"
+    class="dark-mode-button"
+    style="position: fixed; top: 20px; right: 20px; z-index: 999;"
+    title="Toggle Light/Dark Mode"
+>
+    🌙
+</button>
+
+
 <div class="login-page">
 
     <div class="login-card">
@@ -94,6 +106,48 @@
     </div>
 
 </div>
+
+
+<script>
+
+    const themeToggle = document.getElementById("themeToggle");
+
+    // Get saved theme
+    const savedTheme = localStorage.getItem("linkup-theme");
+
+    // Apply saved dark mode
+    if (savedTheme === "dark") {
+
+        document.body.classList.add("dark-mode");
+
+        themeToggle.textContent = "☀️";
+
+    }
+
+
+    // Toggle Light / Dark Mode
+    themeToggle.addEventListener("click", function () {
+
+        document.body.classList.toggle("dark-mode");
+
+        if (document.body.classList.contains("dark-mode")) {
+
+            themeToggle.textContent = "☀️";
+
+            localStorage.setItem("linkup-theme", "dark");
+
+        } else {
+
+            themeToggle.textContent = "🌙";
+
+            localStorage.setItem("linkup-theme", "light");
+
+        }
+
+    });
+
+</script>
+
 
 </body>
 
